@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 1218310157bc8c748b83a0e2610ca674
+guid: fc3a8c757efd50740873439946720237
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -123,7 +123,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Ghost3-Sheet_0
+      name: Ghost4-Sheet_0
       rect:
         serializedVersion: 2
         x: 2
@@ -138,14 +138,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dba73221c393d604ca0a736db5944dc6
-      internalID: 1190799794
+      spriteID: e5e8cd3444f2cc14faab58b46acd8c65
+      internalID: 1476451735
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ghost3-Sheet_1
+      name: Ghost4-Sheet_1
       rect:
         serializedVersion: 2
         x: 33
@@ -160,14 +160,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e98fd37f3efaeb64a99bdd0297db802c
-      internalID: 14862470
+      spriteID: a1ee96a6691e0ec418610ea3dc95715f
+      internalID: -794566468
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ghost3-Sheet_2
+      name: Ghost4-Sheet_2
       rect:
         serializedVersion: 2
         x: 68
@@ -182,14 +182,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8ab7efbc53e9dbe469dad51ac6b092dd
-      internalID: -19611729
+      spriteID: 420cb07e3729116439340a2ae6d3b4d7
+      internalID: 294468646
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ghost3-Sheet_3
+      name: Ghost4-Sheet_3
       rect:
         serializedVersion: 2
         x: 98
@@ -204,14 +204,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9139960ddd9e10a40876f630cf496951
-      internalID: -216160348
+      spriteID: 9fb89ddd19d669a4789ac4dd54213a1e
+      internalID: -776459134
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ghost3-Sheet_4
+      name: Ghost4-Sheet_4
       rect:
         serializedVersion: 2
         x: 129
@@ -226,8 +226,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e078b719292e3534b8f09713751c9cfb
-      internalID: -575166460
+      spriteID: 2a3492a9bd1e9844aba401516020c073
+      internalID: 1445968365
       vertices: []
       indices: 
       edges: []
@@ -236,7 +236,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: a7d9db38102f1cc4f8b38d3e4f325c68
+    spriteID: 7f095fab52ddc974aa11654b2cd06ac4
     internalID: 0
     vertices: []
     indices: 
@@ -248,11 +248,11 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Ghost3-Sheet_0: 1190799794
-      Ghost3-Sheet_1: 14862470
-      Ghost3-Sheet_2: -19611729
-      Ghost3-Sheet_3: -216160348
-      Ghost3-Sheet_4: -575166460
+      Ghost4-Sheet_0: 1476451735
+      Ghost4-Sheet_1: -794566468
+      Ghost4-Sheet_2: 294468646
+      Ghost4-Sheet_3: -776459134
+      Ghost4-Sheet_4: 1445968365
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
