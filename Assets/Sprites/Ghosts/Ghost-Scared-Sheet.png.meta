@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 2492bd5311736d542826384c0013fcde
+guid: 9ed730bc1f05f2f458261bd222f03650
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -123,13 +123,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: PacStudent-Dead_0
+      name: Ghost-Scared-Sheet_0
       rect:
         serializedVersion: 2
         x: 2
-        y: 2
+        y: 1
         width: 28
-        height: 28
+        height: 29
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -138,20 +138,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5df29214dd1c74d43b4d2c533cd4d2be
-      internalID: -809774688
+      spriteID: 036352a76a34b3046871792443e342d1
+      internalID: 264441676
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PacStudent-Dead_1
+      name: Ghost-Scared-Sheet_1
       rect:
         serializedVersion: 2
-        x: 34
-        y: 2
-        width: 28
-        height: 28
+        x: 33
+        y: 1
+        width: 30
+        height: 26
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -160,8 +160,74 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 92fb9efcff98c724da36c30098fee21e
-      internalID: 389230218
+      spriteID: 36171a22a2c37e145954664771cf1c74
+      internalID: -1268287429
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost-Scared-Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 0
+        width: 24
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0e5419e316cdfc443b5ed1a9492a2d60
+      internalID: -1732061518
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost-Scared-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 1
+        width: 29
+        height: 29
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: def4dab032fca7046adfdc7a08693a89
+      internalID: -1155814988
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost-Scared-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 129
+        y: 1
+        width: 29
+        height: 29
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9cb97b344017e96439dae1d5abeed81e
+      internalID: 612515756
       vertices: []
       indices: 
       edges: []
@@ -170,7 +236,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 7e66d991fd6979d4aa7b0cc59d642276
+    spriteID: 42d05562cec1d1a4ea0d26b02a79d836
     internalID: 0
     vertices: []
     indices: 
@@ -182,8 +248,11 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      PacStudent-Dead_0: -809774688
-      PacStudent-Dead_1: 389230218
+      Ghost-Scared-Sheet_0: 264441676
+      Ghost-Scared-Sheet_1: -1268287429
+      Ghost-Scared-Sheet_2: -1732061518
+      Ghost-Scared-Sheet_3: -1155814988
+      Ghost-Scared-Sheet_4: 612515756
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

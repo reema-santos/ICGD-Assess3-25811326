@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 2492bd5311736d542826384c0013fcde
+guid: 6c1029a67f013484eb01c64e70290e7e
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -123,13 +123,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: PacStudent-Dead_0
+      name: Ghost4-Sheet_0
       rect:
         serializedVersion: 2
         x: 2
-        y: 2
+        y: 1
         width: 28
-        height: 28
+        height: 29
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -138,20 +138,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5df29214dd1c74d43b4d2c533cd4d2be
-      internalID: -809774688
+      spriteID: cf3fd88af5cadd84b8ec9443b082343a
+      internalID: 1535082055
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PacStudent-Dead_1
+      name: Ghost4-Sheet_1
       rect:
         serializedVersion: 2
-        x: 34
-        y: 2
-        width: 28
-        height: 28
+        x: 33
+        y: 1
+        width: 30
+        height: 26
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -160,8 +160,74 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 92fb9efcff98c724da36c30098fee21e
-      internalID: 389230218
+      spriteID: 492be71dbd255c94ea25ae3812a3c4ac
+      internalID: 1440306296
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost4-Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 0
+        width: 24
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 01440935ad572e040b772740ec8816ec
+      internalID: 1107213380
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost4-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 1
+        width: 29
+        height: 29
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bcd680ab0f2952d43a4729c260768f9d
+      internalID: 1357970902
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost4-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 129
+        y: 1
+        width: 29
+        height: 29
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5e69f0a0d8366e247b1d2b5b0689092e
+      internalID: -1009976721
       vertices: []
       indices: 
       edges: []
@@ -170,7 +236,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 7e66d991fd6979d4aa7b0cc59d642276
+    spriteID: 0c521308f44317c44a0b6b30d4b438de
     internalID: 0
     vertices: []
     indices: 
@@ -182,8 +248,11 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      PacStudent-Dead_0: -809774688
-      PacStudent-Dead_1: 389230218
+      Ghost4-Sheet_0: 1535082055
+      Ghost4-Sheet_1: 1440306296
+      Ghost4-Sheet_2: 1107213380
+      Ghost4-Sheet_3: 1357970902
+      Ghost4-Sheet_4: -1009976721
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
