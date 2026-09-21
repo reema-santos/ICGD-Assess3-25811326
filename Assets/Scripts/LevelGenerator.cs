@@ -13,6 +13,8 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField] private GameObject tJunctionPrefab;
     [SerializeField] private GameObject ghostExitPrefab;
 
+    [SerializeField] private GameObject powerPellet = null;
+
     [SerializeField] private string manualLevelName = "manualLevel01";
     [SerializeField] private float tileSize = 1.0f;
 
@@ -145,6 +147,14 @@ public class LevelGenerator : MonoBehaviour
                 GameObject spawnedTile = Instantiate(prefab, position, Quaternion.identity, levelRoot.transform);
                 spawnedTile.name = $"Tile_{r}_{c}_Type_{tileType}";
 
+                if (prefab == powerPelletPrefab && powerPellet != null)
+                {
+                    powerPellet = Instantiate(powerPellet, position, Quaternion.identity);
+                    powerPellet.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
+                    Animator animator = powerPellet.GetComponent<Animator>();
+                    animator.Play("PowerPellet_Flash");
+                }
+
                 float rotationAngle = CalculateRotation(r, c, tileType);
                 spawnedTile.transform.rotation = Quaternion.Euler(0, 0, rotationAngle);
             }
@@ -171,7 +181,7 @@ public class LevelGenerator : MonoBehaviour
             bool left = CornerCanConnect(r, c - 1, false, type);
             bool right = CornerCanConnect(r, c + 1, false, type);
 
-            bool useDown = ChooseSecond(up,   down,  r - 1, c, r + 1, c);
+            bool useDown = ChooseSecond(up, down, r - 1, c, r + 1, c);
             bool useRight = ChooseSecond(left, right, r, c - 1, r, c + 1);
 
             bool hasVertical = up || down;

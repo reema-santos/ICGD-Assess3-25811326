@@ -2724,6 +2724,7 @@ MonoBehaviour:
   powerPelletPrefab: {fileID: 1216244613317473363, guid: 559b72b23517b474faacf96ab2a45a64, type: 3}
   tJunctionPrefab: {fileID: 7786863935257812168, guid: b9cf66da1ff77de479841c45f40492e4, type: 3}
   ghostExitPrefab: {fileID: 4316382915300414342, guid: b9c900cfda694824a944a41bf1b95246, type: 3}
+  powerPellet: {fileID: 2848465847878322864, guid: e1f917433db7be24bb31a87793087a7a, type: 3}
   manualLevelName: manualLevel01
   tileSize: 1
 --- !u!1 &27155978
