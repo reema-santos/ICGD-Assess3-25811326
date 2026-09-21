@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 5a3dc8c6d94f36a4bbdecc85e93263cb
+guid: 2dff8749fafdcda4f833f5226c45dbc2
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -71,7 +71,7 @@ TextureImporter:
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: -1
+    textureFormat: 4
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
@@ -123,13 +123,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: PacStudent_0
+      name: PacmanLevelLayout_0
       rect:
         serializedVersion: 2
-        x: 1
-        y: 37
-        width: 30
-        height: 21
+        x: 0
+        y: 96
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -138,20 +138,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d043ce83098d1c84f95e4dbeeb438797
-      internalID: -462116724
+      spriteID: 3c2dc7d98f9f94647960a245ca7aba2e
+      internalID: -1275740008
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PacStudent_1
+      name: PacmanLevelLayout_1
       rect:
         serializedVersion: 2
-        x: 33
-        y: 37
-        width: 30
-        height: 21
+        x: 32
+        y: 96
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -160,20 +160,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0b7581881cde5074d9b12aa8bc3e98aa
-      internalID: 921091371
+      spriteID: 188b712387cff1e4497e7863dd33fc3a
+      internalID: -706641156
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PacStudent_2
+      name: PacmanLevelLayout_2
       rect:
         serializedVersion: 2
-        x: 66
-        y: 34
-        width: 28
-        height: 28
+        x: 64
+        y: 96
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -182,20 +182,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6404c33ccaf1b8744b652700f88cc146
-      internalID: -1383184839
+      spriteID: b3bc07d4dac6da54590bc5e9b2c45a74
+      internalID: 741450904
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PacStudent_3
+      name: PacmanLevelLayout_3
       rect:
         serializedVersion: 2
-        x: 98
-        y: 34
-        width: 28
-        height: 28
+        x: 96
+        y: 96
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -204,20 +204,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: aedb95ab7b5d94849a23dc33bbce991e
-      internalID: -1496834653
+      spriteID: a31c1603e888c7e43843d5fd6a3e1faf
+      internalID: 129177765
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PacStudent_4
+      name: PacmanLevelLayout_4
       rect:
         serializedVersion: 2
-        x: 1
-        y: 5
-        width: 30
-        height: 21
+        x: 0
+        y: 64
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -226,20 +226,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8fa4395199180b04fb7db2d6b5d2e67b
-      internalID: -1699172911
+      spriteID: 808507f038cc1fb4e989daafa4d2edb2
+      internalID: -1011368713
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PacStudent_5
+      name: PacmanLevelLayout_5
       rect:
         serializedVersion: 2
-        x: 33
-        y: 5
-        width: 30
-        height: 21
+        x: 32
+        y: 64
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -248,20 +248,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 63e98e8fd4e92224192b455b43d4a659
-      internalID: 488199354
+      spriteID: d0ea3aa16bbd4784a8d45fd5908959d9
+      internalID: -1174514484
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PacStudent_6
+      name: PacmanLevelLayout_6
       rect:
         serializedVersion: 2
-        x: 66
-        y: 2
-        width: 28
-        height: 28
+        x: 64
+        y: 64
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -270,20 +270,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2d4c39ac5f58e714dadc4ec7d8b3690b
-      internalID: 2011367531
+      spriteID: c4a1c5a1ef0c1b74486c56b5d3595758
+      internalID: 295206939
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PacStudent_7
+      name: PacmanLevelLayout_7
       rect:
         serializedVersion: 2
-        x: 98
-        y: 2
-        width: 28
-        height: 28
+        x: 96
+        y: 64
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -292,8 +292,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 06e63ae9adab99248806cacf42a09166
-      internalID: 195786774
+      spriteID: cd21d34889639734c973de072e878aab
+      internalID: -613948230
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PacmanLevelLayout_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ed6e0cb9ea6320043b9bdb4386054e0a
+      internalID: 1359021271
       vertices: []
       indices: 
       edges: []
@@ -302,7 +324,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: da6779c482a624c41a487bb743917812
+    spriteID: 4de3a98eb370b694e9f3676802a1e7fd
     internalID: 0
     vertices: []
     indices: 
@@ -312,16 +334,17 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":32.0,"y":32.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      PacStudent_0: -462116724
-      PacStudent_1: 921091371
-      PacStudent_2: -1383184839
-      PacStudent_3: -1496834653
-      PacStudent_4: -1699172911
-      PacStudent_5: 488199354
-      PacStudent_6: 2011367531
-      PacStudent_7: 195786774
+      PacmanLevelLayout_0: -1275740008
+      PacmanLevelLayout_1: -706641156
+      PacmanLevelLayout_2: 741450904
+      PacmanLevelLayout_3: 129177765
+      PacmanLevelLayout_4: -1011368713
+      PacmanLevelLayout_5: -1174514484
+      PacmanLevelLayout_6: 295206939
+      PacmanLevelLayout_7: -613948230
+      PacmanLevelLayout_8: 1359021271
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
