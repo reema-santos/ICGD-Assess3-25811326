@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 09a38859210bbc148a6934a16b40eb16
+guid: 2dff8749fafdcda4f833f5226c45dbc2
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -138,8 +138,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 481af512cda8b0a48b9ed936e741329d
-      internalID: 748111182
+      spriteID: 3c2dc7d98f9f94647960a245ca7aba2e
+      internalID: -1275740008
       vertices: []
       indices: 
       edges: []
@@ -160,8 +160,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c1f8642cd40b2964698b0880cb14f610
-      internalID: 776777539
+      spriteID: 188b712387cff1e4497e7863dd33fc3a
+      internalID: -706641156
       vertices: []
       indices: 
       edges: []
@@ -182,8 +182,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 551caae9ad2947f41bcf90c03ba970ca
-      internalID: 1799539477
+      spriteID: b3bc07d4dac6da54590bc5e9b2c45a74
+      internalID: 741450904
       vertices: []
       indices: 
       edges: []
@@ -204,8 +204,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bcf68e79b5186ab409996815c98436a9
-      internalID: -192852072
+      spriteID: a31c1603e888c7e43843d5fd6a3e1faf
+      internalID: 129177765
       vertices: []
       indices: 
       edges: []
@@ -226,8 +226,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6cce86a6b43fe184d80f31137ab8271f
-      internalID: -1757995077
+      spriteID: 808507f038cc1fb4e989daafa4d2edb2
+      internalID: -1011368713
       vertices: []
       indices: 
       edges: []
@@ -248,8 +248,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 30a24cf106c48c44594d5b902bb6f23f
-      internalID: 630850564
+      spriteID: d0ea3aa16bbd4784a8d45fd5908959d9
+      internalID: -1174514484
       vertices: []
       indices: 
       edges: []
@@ -270,8 +270,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bcbca0152b57afb4697e188275bd4cfc
-      internalID: 1196132308
+      spriteID: c4a1c5a1ef0c1b74486c56b5d3595758
+      internalID: 295206939
       vertices: []
       indices: 
       edges: []
@@ -292,8 +292,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b61077b0eda717544b817c5b63415dd3
-      internalID: 837678083
+      spriteID: cd21d34889639734c973de072e878aab
+      internalID: -613948230
       vertices: []
       indices: 
       edges: []
@@ -314,8 +314,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 890e1874745c7994795f30da043c0071
-      internalID: -2028812588
+      spriteID: ed6e0cb9ea6320043b9bdb4386054e0a
+      internalID: 1359021271
       vertices: []
       indices: 
       edges: []
@@ -324,7 +324,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 8b9bca246788bc0489b44f368c5675fe
+    spriteID: 4de3a98eb370b694e9f3676802a1e7fd
     internalID: 0
     vertices: []
     indices: 
@@ -336,15 +336,15 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":32.0,"y":32.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      PacmanLevelLayout_0: 748111182
-      PacmanLevelLayout_1: 776777539
-      PacmanLevelLayout_2: 1799539477
-      PacmanLevelLayout_3: -192852072
-      PacmanLevelLayout_4: -1757995077
-      PacmanLevelLayout_5: 630850564
-      PacmanLevelLayout_6: 1196132308
-      PacmanLevelLayout_7: 837678083
-      PacmanLevelLayout_8: -2028812588
+      PacmanLevelLayout_0: -1275740008
+      PacmanLevelLayout_1: -706641156
+      PacmanLevelLayout_2: 741450904
+      PacmanLevelLayout_3: 129177765
+      PacmanLevelLayout_4: -1011368713
+      PacmanLevelLayout_5: -1174514484
+      PacmanLevelLayout_6: 295206939
+      PacmanLevelLayout_7: -613948230
+      PacmanLevelLayout_8: 1359021271
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
