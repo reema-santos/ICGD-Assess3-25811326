@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class LevelGenerator : MonoBehaviour
 {
+    // tile prefabs 0-8
     [SerializeField] private GameObject emptyPrefab;
     [SerializeField] private GameObject outsideCornerPrefab;
     [SerializeField] private GameObject outsideWallPrefab;
@@ -34,21 +35,23 @@ public class LevelGenerator : MonoBehaviour
         {0,0,0,0,0,0,5,0,0,0,4,0,0,0},
     };
 
-    private int[,] fullMap;
-    private int quadRows;
-    private int quadCols;
-    private int fullRows;
-    private int fullCols;
+    private int[,] fullMap; // mirrored grid
+    private int[,] wallAxis; // full map (as above) but stores only straight walls
+
+    // named consts to be inserted into wallAxis, tells u if a line is horizontal or vertical (or neither)
+    private const int AXIS_NONE = 0;
+    private const int AXIS_HORIZONTAL = 1;
+    private const int AXIS_VERTICAL = 2;
+
+    private int quadRows, quadCols, fullRows, fullCols;
 
     private void Start()
     {
         GameObject manualLevel = GameObject.Find(manualLevelName);
-        if (manualLevel != null)
-        {
-            Destroy(manualLevel);
-        }
+        if (manualLevel != null) Destroy(manualLevel);
 
         GenerateFullMapMatrix();
+        ComputeWallAxes();
         CreateLevelLayout();
         AdjustCameraViewport();
     }
@@ -58,9 +61,7 @@ public class LevelGenerator : MonoBehaviour
         quadRows = levelMap.GetLength(0);
         quadCols = levelMap.GetLength(1);
 
-        int effectiveQuadRows = quadRows;
-
-        fullRows = effectiveQuadRows * 2;
+        fullRows = quadRows * 2;
         fullCols = quadCols * 2;
         fullMap = new int[fullRows, fullCols];
 
@@ -68,15 +69,61 @@ public class LevelGenerator : MonoBehaviour
         {
             for (int c = 0; c < fullCols; c++)
             {
-                int sourceR = (r < effectiveQuadRows)
-                    ? r
-                    : (fullRows - 1 - r);
-
-                int sourceC = (c < quadCols)
-                    ? c
-                    : (fullCols - 1 - c);
-
+                int sourceR = (r < quadRows) ? r : (fullRows - 1 - r);
+                int sourceC = (c < quadCols) ? c : (fullCols - 1 - c);
                 fullMap[r, c] = levelMap[sourceR, sourceC];
+            }
+        }
+    }
+
+    private void ComputeWallAxes()
+    {
+        wallAxis = new int[fullRows, fullCols];
+
+        for (int r = 0; r < fullRows; r++)
+        {
+            for (int c = 0; c < fullCols; c++)
+            {
+                int type = fullMap[r, c];
+                if (type != 2 && type != 4) continue;
+
+                // checks if adjacend tiles are structures (i.e. NOT pellets or empty)
+                bool up = IsStructure(r - 1, c);
+                bool down = IsStructure(r + 1, c);
+                bool left = IsStructure(r, c - 1);
+                bool right = IsStructure(r, c + 1);
+
+                bool vertical = up && down;
+                bool horizontal = left && right;
+
+                if (vertical && !horizontal)
+                {
+                    wallAxis[r, c] = AXIS_VERTICAL;
+                }
+                else if (horizontal && !vertical)
+                {
+                    wallAxis[r, c] = AXIS_HORIZONTAL;
+                }
+
+                // is adjacent to both vertical and horizontal lines
+                else if (vertical && horizontal)
+                {
+                    bool sameVertical =
+                        SameLayer(type, fullMap[r - 1, c]) &&
+                        SameLayer(type, fullMap[r + 1, c]);
+
+                    bool sameHorizontal =
+                        SameLayer(type, fullMap[r, c - 1]) &&
+                        SameLayer(type, fullMap[r, c + 1]);
+
+                    wallAxis[r, c] = (sameVertical && !sameHorizontal) ? AXIS_VERTICAL : AXIS_HORIZONTAL;
+                }
+
+                // only has one neighbour
+                else
+                {
+                    wallAxis[r, c] = (up || down) ? AXIS_VERTICAL : AXIS_HORIZONTAL;
+                }
             }
         }
     }
@@ -94,239 +141,117 @@ public class LevelGenerator : MonoBehaviour
                 GameObject prefab = GetPrefabForType(tileType);
                 if (prefab == null) continue;
 
-                Vector3 position = new Vector3(
-                    c * tileSize,
-                    -r * tileSize,
-                    0
-                );
-
-                GameObject spawnedTile = Instantiate(
-                    prefab,
-                    position,
-                    Quaternion.identity,
-                    levelRoot.transform
-                );
-
+                Vector3 position = new Vector3(c * tileSize, -r * tileSize, 0);
+                GameObject spawnedTile = Instantiate(prefab, position, Quaternion.identity, levelRoot.transform);
                 spawnedTile.name = $"Tile_{r}_{c}_Type_{tileType}";
 
-                float rotationAngle = CalculateRotation(
-                    r,
-                    c,
-                    tileType
-                );
-
-                spawnedTile.transform.rotation =
-                    Quaternion.Euler(0, 0, rotationAngle);
+                float rotationAngle = CalculateRotation(r, c, tileType);
+                spawnedTile.transform.rotation = Quaternion.Euler(0, 0, rotationAngle);
             }
         }
     }
-
     private float CalculateRotation(int r, int c, int type)
-{
-    bool u = IsConnected(r - 1, c, type);
-    bool d = IsConnected(r + 1, c, type);
-    bool l = IsConnected(r, c - 1, type);
-    bool rNeighbor = IsConnected(r, c + 1, type);
-
-    if (type == 2 || type == 4)
     {
+        if (type == 2 || type == 4)
+            return (wallAxis[r, c] == AXIS_VERTICAL) ? 90f : 0f;
 
-        if (type == 4)
+        if (type == 7)
         {
-            if (l && rNeighbor)
-                return 0f;
-
-            if (u && d)
-                return 90f;
-
-            if (l || rNeighbor)
-                return 0f;
-
-            if (u || d)
-                return 90f;
-
+            if (!IsStructure(r - 1, c)) return 0f;
+            if (!IsStructure(r, c + 1)) return 90f;
+            if (!IsStructure(r + 1, c)) return 180f;
+            if (!IsStructure(r, c - 1)) return 270f;
             return 0f;
         }
 
-        if (u && d && !l && !rNeighbor)
-            return 90f;
+        if (type == 1 || type == 3)
+        {
+            bool up = CornerCanConnect(r - 1, c, true,  type);
+            bool down = CornerCanConnect(r + 1, c, true,  type);
+            bool left = CornerCanConnect(r, c - 1, false, type);
+            bool right = CornerCanConnect(r, c + 1, false, type);
 
-        if (l && rNeighbor && !u && !d)
+            bool useDown = ChooseSecond(up,   down,  r - 1, c, r + 1, c);
+            bool useRight = ChooseSecond(left, right, r, c - 1, r, c + 1);
+
+            bool hasVertical = up || down;
+            bool hasHorizontal = left || right;
+
+            if (hasVertical && hasHorizontal)
+            {
+                if (useDown && useRight) return 0f;    // down + right
+                if (useDown && !useRight) return 270f;  // down + left
+                if (!useDown && !useRight) return 180f;  // up + left
+                return 90f;                              // up + right
+            }
+
+            Debug.LogWarning($"Corner at ({r},{c}) type {type}: u={up} d={down} l={left} r={right}");
             return 0f;
-
-        if (u || d)
-            return 90f;
-
-        if (l || rNeighbor)
-            return 0f;
-    }
-
-    if (type == 7)
-    {
-        if (!u)
-            return 0f;
-
-        if (!rNeighbor)
-            return 90f;
-
-        if (!d)
-            return 180f;
-
-        if (!l)
-            return 270f;
+        }
 
         return 0f;
     }
 
-    if (type == 1 || type == 3)
+    private bool ChooseSecond(bool firstOk, bool secondOk,
+                              int r1, int c1, int r2, int c2)
     {
-
-        if (type == 3 && u && d && l && rNeighbor)
+        if (firstOk && secondOk)
         {
-            bool type3Above =
-                r > 0 && fullMap[r - 1, c] == 3;
+            bool firstIsWall  = IsStraightWall(r1, c1);
+            bool secondIsWall = IsStraightWall(r2, c2);
 
-            bool type3Below =
-                r < fullRows - 1 && fullMap[r + 1, c] == 3;
-
-            bool type3Left =
-                c > 0 && fullMap[r, c - 1] == 3;
-
-            bool type3Right =
-                c < fullCols - 1 && fullMap[r, c + 1] == 3;
-
-            bool topHalf = r < fullRows / 2;
-            bool leftHalf = c < fullCols / 2;
-
-            if (type3Right)
-            {
-                if (topHalf)
-                    return 0f;
-                else
-                    return 90f;
-            }
-
-            if (type3Left)
-            {
-                if (topHalf)
-                    return 270f;
-                else
-                    return 180f;
-            }
-
-            if (type3Below)
-            {
-                if (leftHalf)
-                    return 0f;
-                else
-                    return 270f;
-            }
-
-            if (type3Above)
-            {
-                if (leftHalf)
-                    return 90f;
-                else
-                    return 180f;
-            }
+            if (firstIsWall && !secondIsWall) return false;
+            if (secondIsWall && !firstIsWall) return true;
+            return false;
         }
 
-        if (rNeighbor && d && !u && !l)
-            return 0f;
-
-        if (d && l && !u && !rNeighbor)
-            return 270f;
-
-        if (l && u && !d && !rNeighbor)
-            return 180f;
-
-        if (u && rNeighbor && !d && !l)
-            return 90f;
-
-        Debug.LogWarning(
-            $"Corner at ({r},{c}) type {type}: " +
-            $"ambiguous pattern u={u} d={d} l={l} r={rNeighbor}"
-        );
-
-        if (rNeighbor && d)
-            return 0f;
-
-        if (d && l)
-            return 270f;
-
-        if (l && u)
-            return 180f;
-
-        if (u && rNeighbor)
-            return 90f;
+        return secondOk;
     }
 
-    return 0f;
-}
-
-private bool IsConnected(int r, int c, int sourceLayerType)
-{
-    if (r < 0 || r >= fullRows ||
-        c < 0 || c >= fullCols)
+    private bool CornerCanConnect(int r, int c, bool vertical, int sourceType)
     {
-        return false;
-    }
+        if (r < 0 || r >= fullRows || c < 0 || c >= fullCols) return false;
 
-    int neighborType = fullMap[r, c];
+        int neighbourType = fullMap[r, c];
+        if (!IsStructureType(neighbourType)) return false;
+        if (!SameLayer(sourceType, neighbourType)) return false;
 
-    if (sourceLayerType == 3 || sourceLayerType == 4)
-    {
-        return neighborType == 3 ||
-               neighborType == 4;
-    }
-
-    if (sourceLayerType == 1 || sourceLayerType == 2)
-    {
-        return neighborType == 1 ||
-               neighborType == 2 ||
-               neighborType == 7 ||
-               neighborType == 8;
-    }
-
-    if (sourceLayerType == 7)
-    {
-        return neighborType == 1 ||
-               neighborType == 2 ||
-               neighborType == 3 ||
-               neighborType == 4 ||
-               neighborType == 7 ||
-               neighborType == 8;
-    }
-
-    if (sourceLayerType == 8)
-    {
-        return neighborType == 1 ||
-               neighborType == 2 ||
-               neighborType == 7 ||
-               neighborType == 8;
-    }
-
-    return neighborType == sourceLayerType;
-}
-
-    private bool IsWallOrSame(int r, int c, int sourceLayerType)
-    {
-        if (r < 0 || r >= fullRows || c < 0 || c >= fullCols)
-            return true;
-
-        int neighborType = fullMap[r, c];
-
-        if (neighborType == 1 ||
-            neighborType == 2 ||
-            neighborType == 3 ||
-            neighborType == 4 ||
-            neighborType == 7 ||
-            neighborType == 8)
+        if (neighbourType == 2 || neighbourType == 4)
         {
-            return true;
+            int required = vertical ? AXIS_VERTICAL : AXIS_HORIZONTAL;
+            return wallAxis[r, c] == required;
         }
 
-        return neighborType == sourceLayerType;
+        return true;
+    }
+
+    private bool IsStraightWall(int r, int c)
+    {
+        if (r < 0 || r >= fullRows || c < 0 || c >= fullCols) return false;
+        int t = fullMap[r, c];
+        return t == 2 || t == 4;
+    }
+
+    // returns true if at (r, c) there is a solid piece. not including empty or pellet types
+    private bool IsStructure(int r, int c)
+    {
+        if (r < 0 || r >= fullRows || c < 0 || c >= fullCols) return false;
+        return IsStructureType(fullMap[r, c]);
+    }
+
+    private bool IsStructureType(int t)
+    {
+        return t == 1 || t == 2 || t == 3 || t == 4 || t == 7 || t == 8;
+    }
+
+    private bool SameLayer(int sourceType, int neighbourType)
+    {
+        // checks if two pieces are the same kind (inside vs outside piece)
+        if (sourceType == 3 || sourceType == 4)
+            return neighbourType == 3 || neighbourType == 4;
+
+        return neighbourType == 1 || neighbourType == 2 ||
+               neighbourType == 7 || neighbourType == 8;
     }
 
     private GameObject GetPrefabForType(int type)
@@ -357,22 +282,12 @@ private bool IsConnected(int r, int c, int sourceLayerType)
         float centerX = (mapWidth - tileSize) / 2f;
         float centerY = -(mapHeight - tileSize) / 2f;
 
-        mainCam.transform.position =
-            new Vector3(centerX, centerY, -10f);
+        mainCam.transform.position = new Vector3(centerX, centerY, -10f);
 
-        float screenAspect =
-            (float)Screen.width / Screen.height;
+        float screenAspect = (float)Screen.width / Screen.height;
+        float targetSizeByHeight = mapHeight / 2f;
+        float targetSizeByWidth = (mapWidth / 2f) / screenAspect;
 
-        float targetSizeByHeight =
-            mapHeight / 2f;
-
-        float targetSizeByWidth =
-            (mapWidth / 2f) / screenAspect;
-
-        mainCam.orthographicSize =
-            Mathf.Max(
-                targetSizeByHeight,
-                targetSizeByWidth
-            );
+        mainCam.orthographicSize = Mathf.Max(targetSizeByHeight, targetSizeByWidth);
     }
 }
