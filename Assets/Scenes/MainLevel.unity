@@ -136596,7 +136596,7 @@ GameObject:
   - component: {fileID: 1834050544}
   m_Layer: 5
   m_Name: Exit
-  m_TagString: Untagged
+  m_TagString: ExitGame
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -136644,7 +136644,7 @@ MonoBehaviour:
   m_Colors:
     m_NormalColor: {r: 0.18128155, g: 0.4641509, b: 0.45989725, a: 0.78431374}
     m_HighlightedColor: {r: 0.12326804, g: 0.3283019, b: 0.32353368, a: 0.78431374}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_PressedColor: {r: 0.18039216, g: 0.46274513, b: 0.45882356, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
@@ -136664,7 +136664,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1834050545}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 11500000, guid: 491a24e076b5fa24186025d5c4e3f698, type: 3}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
 --- !u!114 &1834050545
 MonoBehaviour:
   m_ObjectHideFlags: 0
