@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -22,5 +23,37 @@ public class UIManager : MonoBehaviour
     public void LoadFirstLevel()
     {
         SceneManager.LoadScene("MainLevel");
+    }
+
+    public void QuitGame()
+    {
+        #if UNITY_STANDALONE
+            Application.Quit();
+        #endif
+        
+        #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+        #endif
+    }
+
+    public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        int firstLevelSceneIndex = SceneUtility.GetBuildIndexByScenePath("MainLevel");
+        if (scene.buildIndex == firstLevelSceneIndex)
+        {
+            GameObject quitBtnObj = GameObject.FindGameObjectWithTag("ExitGame");
+            Button quitBtn = quitBtnObj.GetComponent<Button>();
+            quitBtn.onClick.AddListener(QuitGame);
+        }
+    }
+
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 }
