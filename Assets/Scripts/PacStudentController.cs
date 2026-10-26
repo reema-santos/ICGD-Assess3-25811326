@@ -20,6 +20,7 @@ public class PacStudentController : MonoBehaviour
     private Animator animator;
     private AudioSource audioSource;
     [SerializeField] private AudioClip movementAudio;
+    [SerializeField] private AudioClip eatingPelletAudio;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -96,6 +97,8 @@ public class PacStudentController : MonoBehaviour
         Vector2Int next = gridPos + dir;
         if (!IsWalkable(next)) return false;
 
+        audioSource.resource = (IsPellet(next) ? eatingPelletAudio : movementAudio);
+
         Vector3 start = pacStudent.transform.position;
         Vector3 end = GridToWorld(next);
         float duration = Vector3.Distance(start, end) / speed;
@@ -126,6 +129,16 @@ public class PacStudentController : MonoBehaviour
 
         int tile = fullMap[cell.x, cell.y];
         return tile == 0 || tile == 5 || tile == 6;
+    }
+
+    bool IsPellet(Vector2Int cell)
+    {
+        if (fullMap == null) return false;
+        if (cell.x < 0 || cell.x >= fullMap.GetLength(0) ||
+            cell.y < 0 || cell.y >= fullMap.GetLength(1)) return false;
+
+        int tile = fullMap[cell.x, cell.y];
+        return tile == 5 || tile == 6;
     }
 
     Vector3 GridToWorld(Vector2Int cell)
