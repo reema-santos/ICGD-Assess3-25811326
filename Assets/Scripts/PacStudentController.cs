@@ -1,4 +1,6 @@
 using System;
+using Unity.VisualScripting;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class PacStudentController : MonoBehaviour
@@ -16,6 +18,8 @@ public class PacStudentController : MonoBehaviour
     private Vector2Int gridPos;
 
     private Animator animator;
+    private AudioSource audioSource;
+    [SerializeField] private AudioClip movementAudio;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -27,6 +31,7 @@ public class PacStudentController : MonoBehaviour
         pacStudent.transform.position = GridToWorld(gridPos);
 
         animator = pacStudent.GetComponent<Animator>();
+        if (audioSource == null) audioSource = pacStudent.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -56,10 +61,14 @@ public class PacStudentController : MonoBehaviour
         {
             currentInput = lastInput;
             PlayDirection(currentInput);
+            PlayClip();
             return;
         }
 
         if (TryMove(currentInput, speed)) return;
+
+        // else, can't move
+        audioSource.Stop();
     }
 
     void PlayDirection(KeyCode key)
@@ -71,6 +80,12 @@ public class PacStudentController : MonoBehaviour
             case KeyCode.S: animator.Play("PacStudent_Down"); break;
             case KeyCode.D: animator.Play("PacStudent_Right"); break;
         }
+    }
+
+    void PlayClip()
+    {
+        audioSource.Stop(); // Stop if already playing something
+        audioSource.Play();
     }
 
     bool TryMove(KeyCode key, float speed)
