@@ -4,7 +4,7 @@ using UnityEngine;
 public class PacStudentController : MonoBehaviour
 {
     [SerializeField] private GameObject pacStudent;
-    [SerializeField] private float speed = 4f;
+    [SerializeField] private float speed = 5f;
     [SerializeField] private float zDepth = -0.1f;
     [SerializeField] private Vector2Int startGridPos = new Vector2Int(1, -1);
 
@@ -12,6 +12,7 @@ public class PacStudentController : MonoBehaviour
     private LevelGenerator levelGenerator;
     private int[,] fullMap;
     private KeyCode lastInput;
+    private KeyCode currentInput;
     private Vector2Int gridPos;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -41,11 +42,22 @@ public class PacStudentController : MonoBehaviour
 
     void MovePacStudent(float speed)
     {
-        Vector2Int dir = KeyToDirection(lastInput);
-        if (dir == Vector2Int.zero) return;
+        if (TryMove(lastInput, speed))
+        {
+            currentInput = lastInput;
+            return;
+        }
+
+        if (TryMove(currentInput, speed)) return;
+    }
+
+    bool TryMove(KeyCode key, float speed)
+    {
+        Vector2Int dir = KeyToDirection(key);
+        if (dir == Vector2Int.zero) return false;
 
         Vector2Int next = gridPos + dir;
-        if (!IsWalkable(next)) return;
+        if (!IsWalkable(next)) return false;
 
         Vector3 start = pacStudent.transform.position;
         Vector3 end = GridToWorld(next);
@@ -53,6 +65,7 @@ public class PacStudentController : MonoBehaviour
 
         tweener.AddTween(pacStudent.transform, start, end, duration);
         gridPos = next;
+        return true;
     }
 
     Vector2Int KeyToDirection(KeyCode key)
