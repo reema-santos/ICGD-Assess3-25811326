@@ -14,21 +14,31 @@ public class PacStudentController : MonoBehaviour
     private KeyCode lastInput;
     private KeyCode currentInput;
     private Vector2Int gridPos;
-    
+
+    private Animator animator;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         tweener = GetComponent<Tweener>();
         levelGenerator = GameObject.FindGameObjectWithTag("Level1").GetComponent<LevelGenerator>();
-        fullMap = levelGenerator.fullMap;
 
         gridPos = startGridPos;
         pacStudent.transform.position = GridToWorld(gridPos);
+
+        animator = pacStudent.GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (fullMap == null)
+        {
+            fullMap = levelGenerator.fullMap;
+            if (fullMap == null) return;
+            pacStudent.transform.position = GridToWorld(gridPos);
+        }
+
         if (Input.GetKeyDown(KeyCode.W)) lastInput = KeyCode.W;
         if (Input.GetKeyDown(KeyCode.A)) lastInput = KeyCode.A;
         if (Input.GetKeyDown(KeyCode.S)) lastInput = KeyCode.S;
@@ -45,10 +55,22 @@ public class PacStudentController : MonoBehaviour
         if (TryMove(lastInput, speed))
         {
             currentInput = lastInput;
+            PlayDirection(currentInput);
             return;
         }
 
         if (TryMove(currentInput, speed)) return;
+    }
+
+    void PlayDirection(KeyCode key)
+    {
+        switch (key)
+        {
+            case KeyCode.W: animator.Play("PacStudent_Up"); break;
+            case KeyCode.A: animator.Play("PacStudent_Left"); break;
+            case KeyCode.S: animator.Play("PacStudent_Down"); break;
+            case KeyCode.D: animator.Play("PacStudent_Right"); break;
+        }
     }
 
     bool TryMove(KeyCode key, float speed)
@@ -82,6 +104,8 @@ public class PacStudentController : MonoBehaviour
 
     bool IsWalkable(Vector2Int cell)
     {
+        if (fullMap == null) return false;
+
         if (cell.x < 0 || cell.x >= fullMap.GetLength(0) ||
             cell.y < 0 || cell.y >= fullMap.GetLength(1)) return false;
 

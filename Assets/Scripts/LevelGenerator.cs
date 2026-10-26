@@ -63,8 +63,8 @@ public class LevelGenerator : MonoBehaviour
         quadRows = levelMap.GetLength(0);
         quadCols = levelMap.GetLength(1);
 
-        fullRows = quadRows * 2;
-        fullCols = quadCols * 2;
+        fullRows = quadRows * 2 - 1;   // 29, middle row shared
+        fullCols = quadCols * 2;       // 28
         fullMap = new int[fullRows, fullCols];
 
         for (int r = 0; r < fullRows; r++)
@@ -149,10 +149,9 @@ public class LevelGenerator : MonoBehaviour
 
                 if (prefab == powerPelletPrefab && powerPellet != null)
                 {
-                    powerPellet = Instantiate(powerPellet, position, Quaternion.identity);
-                    powerPellet.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
-                    Animator animator = powerPellet.GetComponent<Animator>();
-                    animator.Play("PowerPellet_Flash");
+                    GameObject pp = Instantiate(powerPellet, position, Quaternion.identity);
+                    pp.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
+                    pp.GetComponent<Animator>().Play("PowerPellet_Flash");
                 }
 
                 float rotationAngle = CalculateRotation(r, c, tileType);
