@@ -37,7 +37,7 @@ public class LevelGenerator : MonoBehaviour
         {0,0,0,0,0,0,5,0,0,0,4,0,0,0},
     };
 
-    private int[,] fullMap; // mirrored grid
+    public int[,] fullMap; // mirrored grid
     private int[,] wallAxis; // full map (as above) but stores only straight walls
 
     // named consts to be inserted into wallAxis, tells u if a line is horizontal or vertical (or neither)
@@ -300,4 +300,6 @@ public class LevelGenerator : MonoBehaviour
 
         mainCam.orthographicSize = Mathf.Max(targetSizeByHeight, targetSizeByWidth);
     }
+
+    public Vector3 GridToWorld(int r, int c) => new Vector3(c * tileSize, -r * tileSize, 0f);
 }

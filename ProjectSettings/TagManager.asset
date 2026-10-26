@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - ExitGame
+  - Level1
   layers:
   - Default
   - TransparentFX
