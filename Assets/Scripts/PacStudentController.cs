@@ -3,6 +3,8 @@ using System;
 // using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using TMPro;
+using System.Drawing;
 
 public class PacStudentController : MonoBehaviour
 {
@@ -31,6 +33,10 @@ public class PacStudentController : MonoBehaviour
     private int previousTile;
 
     private int points;
+    [SerializeField] private TMP_Text pointsText;
+
+    [SerializeField] private GhostPowerManager ghostPower;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -45,6 +51,8 @@ public class PacStudentController : MonoBehaviour
         animator = pacStudent.GetComponent<Animator>();
         if (audioSource == null) audioSource = pacStudent.GetComponent<AudioSource>();
         points = 0;
+
+        if (pointsText != null) pointsText.text = "000000";
     }
 
     // Update is called once per frame
@@ -72,14 +80,45 @@ public class PacStudentController : MonoBehaviour
 
             if (IsPowerPellet(tile)) {
                 points += 50;
+                ghostPower.StartPowerState();
                 Debug.Log("Added 50 points");
             }
-
-            Debug.Log($"Points: {points}");
-
+  
             levelGenerator.ChangePelletToEmpty(gridPos);
+            UpdatePointsUI(points);
             MovePacStudent(speed);
         }
+    }
+
+    void UpdatePointsUI(int points)
+    {
+        int digits = CountDigits(points);
+        int numZeros = 6 - digits;
+
+        string pointAmount = "";
+
+        for (int i = 0; i < numZeros; i++)
+        {
+            pointAmount += "0";
+        }
+        pointAmount += points.ToString();
+        pointsText.text = pointAmount;
+    }
+
+    private int CountDigits(int num)
+    {
+        if (num == 0) return 1;
+
+        int count = 0;
+
+        while (num > 0)
+        {
+            long lastDigit = num % 10;
+            count++;
+            num /= 10;
+        }
+
+        return count;
     }
 
     void MovePacStudent(float speed)

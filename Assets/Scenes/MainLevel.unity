@@ -10369,6 +10369,8 @@ MonoBehaviour:
   wallCollideAudio: {fileID: 8300000, guid: 09a3d81d7f6943848894688b076ca170, type: 3}
   sfxSource: {fileID: 731997447}
   collidePs: {fileID: 1466874226}
+  pointsText: {fileID: 982692787}
+  ghostPower: {fileID: 554860791}
 --- !u!1 &269231004
 GameObject:
   m_ObjectHideFlags: 0
@@ -22349,6 +22351,62 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!1 &554860790
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 554860792}
+  - component: {fileID: 554860791}
+  m_Layer: 0
+  m_Name: GhostPowerManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &554860791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 554860790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a175102cd0102a40ae5bde0f2ed59b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GhostPowerManager
+  ghosts:
+  - {fileID: 1427517295}
+  - {fileID: 1923074717}
+  - {fileID: 2032169294}
+  - {fileID: 1149406242}
+  musicSource: {fileID: 1236518187}
+  normalMusic: {fileID: 8300000, guid: 5a8bdb0b849f5094f96664d31fa27802, type: 3}
+  scaredMusic: {fileID: 8300000, guid: cdb93e521421a9f4b9fef08e1e9dd81c, type: 3}
+  timerUI: {fileID: 472027711}
+  timerText: {fileID: 472027713}
+  scaredDuration: 10
+  recoveringAt: 3
+--- !u!4 &554860792
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 554860790}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 15, y: -14, z: -0.1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &559676538
 GameObject:
   m_ObjectHideFlags: 0
@@ -44903,6 +44961,7 @@ GameObject:
   - component: {fileID: 1149406241}
   - component: {fileID: 1149406240}
   - component: {fileID: 1149406239}
+  - component: {fileID: 1149406242}
   m_Layer: 0
   m_Name: Ghost4
   m_TagString: Untagged
@@ -45007,6 +45066,31 @@ Transform:
   - {fileID: 1088453540}
   m_Father: {fileID: 1575666846}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1149406242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1149406238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7970f20ac5cd004ab19a16d001e91d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GhostController
+  animator: {fileID: 1149406239}
+  normalStates:
+  - Ghost4_UpAnim
+  - Ghost4_LeftAnim
+  - Ghost4_DownAnim
+  - Ghost4_RightAnim
+  scaredStates:
+  - Scared_UpAnim
+  - Scared_LeftAnim
+  - Scared_DownAnim
+  - Scared_RightAnim
+  recoveringState: Ghost4_Recovering
+  deadState: GhostDead
 --- !u!1 &1149628858
 GameObject:
   m_ObjectHideFlags: 0
@@ -56196,6 +56280,7 @@ GameObject:
   - component: {fileID: 1427517294}
   - component: {fileID: 1427517293}
   - component: {fileID: 1427517292}
+  - component: {fileID: 1427517295}
   m_Layer: 0
   m_Name: Ghost1
   m_TagString: Untagged
@@ -56300,6 +56385,31 @@ Transform:
   - {fileID: 238863091}
   m_Father: {fileID: 1575666846}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1427517295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1427517291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7970f20ac5cd004ab19a16d001e91d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GhostController
+  animator: {fileID: 1427517292}
+  normalStates:
+  - Ghost1_UpAnim
+  - Ghost1_LeftAnim
+  - Ghost1_DownAnim
+  - Ghost1_RightAnim
+  scaredStates:
+  - Scared_UpAnim
+  - Scared_LeftAnim
+  - Scared_DownAnim
+  - Scared_RightAnim
+  recoveringState: Ghost1_Recovering
+  deadState: GhostDead
 --- !u!1 &1427900329
 GameObject:
   m_ObjectHideFlags: 0
@@ -83840,6 +83950,7 @@ GameObject:
   - component: {fileID: 1923074716}
   - component: {fileID: 1923074715}
   - component: {fileID: 1923074714}
+  - component: {fileID: 1923074717}
   m_Layer: 0
   m_Name: Ghost2
   m_TagString: Untagged
@@ -83944,6 +84055,31 @@ Transform:
   - {fileID: 240685983}
   m_Father: {fileID: 1575666846}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1923074717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1923074713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7970f20ac5cd004ab19a16d001e91d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GhostController
+  animator: {fileID: 1923074714}
+  normalStates:
+  - Ghost2_UpAnim
+  - Ghost2_LeftAnim
+  - Ghost2_DownAnim
+  - Ghost2_RightAnim
+  scaredStates:
+  - Scared_UpAnim
+  - Scared_LeftAnim
+  - Scared_DownAnim
+  - Scared_RightAnim
+  recoveringState: Ghost2_Recovering
+  deadState: GhostDead
 --- !u!1 &1923797378
 GameObject:
   m_ObjectHideFlags: 0
@@ -87725,6 +87861,7 @@ GameObject:
   - component: {fileID: 2032169293}
   - component: {fileID: 2032169292}
   - component: {fileID: 2032169291}
+  - component: {fileID: 2032169294}
   m_Layer: 0
   m_Name: Ghost3
   m_TagString: Untagged
@@ -87829,6 +87966,31 @@ Transform:
   - {fileID: 670904798}
   m_Father: {fileID: 1575666846}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2032169294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2032169290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7970f20ac5cd004ab19a16d001e91d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GhostController
+  animator: {fileID: 2032169291}
+  normalStates:
+  - Ghost3_UpAnim
+  - Ghost3_LeftAnim
+  - Ghost3_DownAnim
+  - Ghost3_RightAnim
+  scaredStates:
+  - Scared_UpAnim
+  - Scared_LeftAnim
+  - Scared_DownAnim
+  - Scared_RightAnim
+  recoveringState: Ghost3_Recovering
+  deadState: GhostDead
 --- !u!1 &2033048690
 GameObject:
   m_ObjectHideFlags: 0
@@ -91893,3 +92055,4 @@ SceneRoots:
   - {fileID: 1127630488}
   - {fileID: 924199390}
   - {fileID: 1606679776}
+  - {fileID: 554860792}
