@@ -20164,7 +20164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PacStudentController
   pacStudent: {fileID: 268828960}
-  speed: 4
+  speed: 5
   zDepth: -0.1
   startGridPos: {x: 1, y: 1}
   movementAudio: {fileID: 8300000, guid: 7193a2b295a012e4fa3e45a98a81e06e, type: 3}
