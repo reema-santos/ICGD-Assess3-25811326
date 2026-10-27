@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public enum GhostState { Normal, Scared, Recovering, Dead }
 public enum Facing { Up = 0, Left = 1, Down = 2, Right = 3 }
@@ -14,10 +15,13 @@ public class GhostController : MonoBehaviour
 
     public GhostState State { get; private set; } = GhostState.Normal;
     public Facing Direction { get; private set; } = Facing.Down;
+    public bool Frozen { get; set; }
+    private Vector3 originalPosition;
 
     void Awake()
     {
         if (animator == null) animator = GetComponent<Animator>();
+        originalPosition = transform.position;
     }
 
     // Called by the power pill logic. A dead ghost ignores these.
@@ -37,6 +41,14 @@ public class GhostController : MonoBehaviour
         Apply(State); // swap to the same state's clip for the new direction
     }
 
+    public void ResetGhost()
+    {
+        transform.position = originalPosition;
+        Direction = Facing.Down;
+        Frozen = false;
+        Apply(GhostState.Normal);
+    }
+
     void Apply(GhostState newState)
     {
         State = newState;
@@ -44,10 +56,10 @@ public class GhostController : MonoBehaviour
 
         switch (newState)
         {
-            case GhostState.Normal:     animator.Play(normalStates[d]); break;
-            case GhostState.Scared:     animator.Play(scaredStates[d]); break;
+            case GhostState.Normal: animator.Play(normalStates[d]); break;
+            case GhostState.Scared: animator.Play(scaredStates[d]); break;
             case GhostState.Recovering: animator.Play(recoveringState); break;
-            case GhostState.Dead:       animator.Play(deadState);       break;
+            case GhostState.Dead: animator.Play(deadState); break;
         }
     }
 }

@@ -2,9 +2,9 @@ using System;
 // using Unity.VisualScripting;
 // using UnityEditor.PackageManager;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 using TMPro;
-using System.Drawing;
+using System.Collections.Generic;
+using System.Collections;
 
 public class PacStudentController : MonoBehaviour
 {
@@ -16,8 +16,8 @@ public class PacStudentController : MonoBehaviour
     private Tweener tweener;
     [SerializeField] private LevelGenerator levelGenerator;
     private int[,] fullMap;
-    private KeyCode lastInput;
-    private KeyCode currentInput;
+    private KeyCode? lastInput;
+    private KeyCode? currentInput;
     private Vector2Int gridPos;
 
     private Animator animator;
@@ -30,13 +30,20 @@ public class PacStudentController : MonoBehaviour
 
     [SerializeField] private ParticleSystem collidePs;
 
-    private int previousTile;
-
     private int points;
     [SerializeField] private TMP_Text pointsText;
+    [SerializeField] private List<UnityEngine.UI.Image> lives;
+    [SerializeField] private GhostPowerManager ghostManager;
+    [SerializeField] private GhostController[] ghosts;
 
-    [SerializeField] private GhostPowerManager ghostPower;
+    [SerializeField] private ParticleSystem deathPs;
+    [SerializeField] private AudioClip deathAudio;
+    [SerializeField] private float deathDuration = 1.5f;
+    [SerializeField] private float dieDistance = 0.5f;
+    private bool isDying;
+    [SerializeField] private int ghostPoints = 300;
 
+    public bool ControlEnabled { get; set; }   // false until the countdown finishes
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -53,6 +60,9 @@ public class PacStudentController : MonoBehaviour
         points = 0;
 
         if (pointsText != null) pointsText.text = "000000";
+
+        if (ghosts == null || ghosts.Length == 0)
+            ghosts = FindObjectsByType<GhostController>();
     }
 
     // Update is called once per frame
@@ -64,6 +74,18 @@ public class PacStudentController : MonoBehaviour
             if (fullMap == null) return;
             pacStudent.transform.position = GridToWorld(gridPos);
         }
+
+        if (!ControlEnabled) return;
+        
+        if (isDying) return;
+
+        if (TouchingNormalGhost())
+        {
+            StartCoroutine(DeathSequence());
+            return;
+        }
+
+        EatTouchingGhosts();
 
         if (Input.GetKeyDown(KeyCode.W)) lastInput = KeyCode.W;
         if (Input.GetKeyDown(KeyCode.A)) lastInput = KeyCode.A;
@@ -80,7 +102,7 @@ public class PacStudentController : MonoBehaviour
 
             if (IsPowerPellet(tile)) {
                 AddPoints(50);
-                ghostPower.StartPowerState();
+                ghostManager.StartPowerState();
                 Debug.Log("Added 50 points");
             }
   
@@ -90,6 +112,59 @@ public class PacStudentController : MonoBehaviour
         }
     }
 
+    public IEnumerator DeathSequence()
+    {
+        isDying = true;
+
+        // freeze everything
+        tweener.CancelTween();
+        foreach (GhostController g in ghosts) g.Frozen = true;
+        audioSource.Stop();
+
+        // lose a life straight away so the UI updates with the death
+        if (lives.Count > 0)
+        {
+            UnityEngine.UI.Image life = lives[lives.Count - 1];
+            if (life != null) Destroy(life.gameObject);
+            lives.RemoveAt(lives.Count - 1);
+        }
+
+        // animation, particles and sound all start together
+        animator.Play("PacStudent_Dead");
+        if (deathPs != null)
+        {
+            deathPs.transform.position = pacStudent.transform.position;
+            deathPs.Play();
+        }
+        if (deathAudio != null) sfxSource.PlayOneShot(deathAudio);
+
+        yield return new WaitForSeconds(deathDuration);
+
+        if (lives.Count == 0)
+        {
+            // Game Over is a later requirement: hook it in here and stay frozen
+            yield break;
+        }
+
+        // respawn
+        ResetPacStudent();
+        foreach (GhostController g in ghosts) g.ResetGhost();
+        ghostManager.CancelPower();
+        isDying = false;
+    }
+    
+    void EatTouchingGhosts()
+    {
+        Vector2 p = pacStudent.transform.position;
+        foreach (GhostController ghost in ghosts)
+        {
+            if (ghost.State != GhostState.Scared && ghost.State != GhostState.Recovering) continue;
+            if (Vector2.Distance(ghost.transform.position, p) > dieDistance) continue;
+
+            AddPoints(ghostPoints);
+            ghostManager.GhostEaten(ghost);
+        }
+    }
     public void AddPoints(int amount)
     {
         points += amount;
@@ -150,7 +225,7 @@ public class PacStudentController : MonoBehaviour
         }
     }
 
-    void PlayDirection(KeyCode key)
+    void PlayDirection(KeyCode? key)
     {
         switch (key)
         {
@@ -167,7 +242,7 @@ public class PacStudentController : MonoBehaviour
         audioSource.Play();
     }
 
-    bool TryMove(KeyCode key, float speed)
+    bool TryMove(KeyCode? key, float speed)
     {
         Vector2Int dir = KeyToDirection(key);
         if (dir == Vector2Int.zero) return false;
@@ -216,7 +291,7 @@ public class PacStudentController : MonoBehaviour
         return true;
     }
 
-    Vector2Int KeyToDirection(KeyCode key)
+    Vector2Int KeyToDirection(KeyCode? key)
     {
         switch (key)
         {
@@ -226,6 +301,32 @@ public class PacStudentController : MonoBehaviour
             case KeyCode.D: return new Vector2Int(0, 1);
             default: return Vector2Int.zero;
         }
+    }
+
+    void ResetPacStudent()
+    {
+        gridPos = startGridPos;
+        pacStudent.transform.position = GridToWorld(gridPos);
+        animator.Play("PacStudent_Right");
+        lastInput = null; // wait for fresh player input
+        currentInput = null;
+        wallSoundPlayed = false;
+    }
+
+    bool TouchingNormalGhost()
+    {
+        Vector2 p = pacStudent.transform.position;
+        foreach (GhostController ghost in ghosts)
+        {
+            if (ghost.State != GhostState.Normal) continue; // scared/recovering/dead ghosts are harmless
+            if (Vector2.Distance(ghost.transform.position, p) <= dieDistance) return true;
+        }
+        return false;
+    }
+
+    bool IsGameOver()
+    {
+        return lives == null;
     }
 
     bool IsWalkable(int tile)
