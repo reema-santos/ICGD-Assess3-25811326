@@ -2,6 +2,7 @@ using System;
 // using Unity.VisualScripting;
 // using UnityEditor.PackageManager;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class PacStudentController : MonoBehaviour
 {
@@ -29,6 +30,8 @@ public class PacStudentController : MonoBehaviour
 
     private int previousTile;
 
+    private int points;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -41,6 +44,7 @@ public class PacStudentController : MonoBehaviour
 
         animator = pacStudent.GetComponent<Animator>();
         if (audioSource == null) audioSource = pacStudent.GetComponent<AudioSource>();
+        points = 0;
     }
 
     // Update is called once per frame
@@ -60,6 +64,19 @@ public class PacStudentController : MonoBehaviour
 
         if (!tweener.IsTweening)
         {
+            int tile = GetTile(gridPos);
+            if (IsNormalPellet(tile)) {
+                points += 10;
+                Debug.Log("Added 10 points");
+            }
+
+            if (IsPowerPellet(tile)) {
+                points += 50;
+                Debug.Log("Added 50 points");
+            }
+
+            Debug.Log($"Points: {points}");
+
             levelGenerator.ChangePelletToEmpty(gridPos);
             MovePacStudent(speed);
         }
@@ -151,6 +168,9 @@ public class PacStudentController : MonoBehaviour
     {
         return tile == 5 || tile == 6;
     }
+
+    bool IsNormalPellet(int tile) { return tile == 5;}
+    bool IsPowerPellet(int tile) { return tile == 6; }
 
     int GetTile(Vector2Int cell)
     {

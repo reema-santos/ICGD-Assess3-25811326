@@ -15,7 +15,7 @@ public class LevelGenerator : MonoBehaviour
 
     [SerializeField] private GameObject powerPellet = null;
 
-    [SerializeField] private string manualLevelName = "manualLevel01";
+    [SerializeField] private string manualLevelName = "Level1";
     [SerializeField] private float tileSize = 1.0f;
 
     private int[,] levelMap =
@@ -54,13 +54,14 @@ public class LevelGenerator : MonoBehaviour
 
     private void Start()
     {
-        GameObject manualLevel = GameObject.Find(manualLevelName);
-        if (manualLevel != null) Destroy(manualLevel);
+        GameObject manualLevel = GameObject.FindGameObjectWithTag(manualLevelName);
+        if (manualLevel != null) manualLevel.SetActive(false);
 
         GenerateFullMapMatrix();
         ComputeWallAxes();
         CreateLevelLayout();
         AdjustCameraViewport();
+        
     }
 
     private void GenerateFullMapMatrix()
