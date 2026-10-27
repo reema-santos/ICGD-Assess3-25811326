@@ -21,6 +21,11 @@ public class PacStudentController : MonoBehaviour
     private AudioSource audioSource;
     [SerializeField] private AudioClip movementAudio;
     [SerializeField] private AudioClip eatingPelletAudio;
+    [SerializeField] private AudioClip wallCollideAudio;
+    [SerializeField] private AudioSource sfxSource;
+    private bool wallSoundPlayed;
+
+    [SerializeField] private ParticleSystem collidePs;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -63,13 +68,20 @@ public class PacStudentController : MonoBehaviour
             currentInput = lastInput;
             PlayDirection(currentInput);
             PlayClip();
+            wallSoundPlayed = false;
             return;
         }
 
-        if (TryMove(currentInput, speed)) return;
+        if (TryMove(currentInput, speed)) { wallSoundPlayed = false; return; }
 
         // else, can't move
-        audioSource.Stop();
+        if (!wallSoundPlayed && KeyToDirection(lastInput) != Vector2Int.zero)
+        {
+            audioSource.Stop();
+            sfxSource.PlayOneShot(wallCollideAudio);
+            collidePs.Play();
+            wallSoundPlayed = true;
+        }
     }
 
     void PlayDirection(KeyCode key)
@@ -95,9 +107,12 @@ public class PacStudentController : MonoBehaviour
         if (dir == Vector2Int.zero) return false;
 
         Vector2Int next = gridPos + dir;
-        if (!IsWalkable(next)) return false;
+        int nextTile = GetTile(next);
+        if (!IsWalkable(nextTile)) {
+            return false; 
+        }
 
-        audioSource.resource = (IsPellet(next) ? eatingPelletAudio : movementAudio);
+        audioSource.resource = (IsPellet(nextTile) ? eatingPelletAudio : movementAudio);
 
         Vector3 start = pacStudent.transform.position;
         Vector3 end = GridToWorld(next);
@@ -120,25 +135,23 @@ public class PacStudentController : MonoBehaviour
         }
     }
 
-    bool IsWalkable(Vector2Int cell)
+    bool IsWalkable(int tile)
     {
-        if (fullMap == null) return false;
-
-        if (cell.x < 0 || cell.x >= fullMap.GetLength(0) ||
-            cell.y < 0 || cell.y >= fullMap.GetLength(1)) return false;
-
-        int tile = fullMap[cell.x, cell.y];
         return tile == 0 || tile == 5 || tile == 6;
     }
 
-    bool IsPellet(Vector2Int cell)
+    bool IsPellet(int tile)
     {
-        if (fullMap == null) return false;
-        if (cell.x < 0 || cell.x >= fullMap.GetLength(0) ||
-            cell.y < 0 || cell.y >= fullMap.GetLength(1)) return false;
-
-        int tile = fullMap[cell.x, cell.y];
         return tile == 5 || tile == 6;
+    }
+
+    int GetTile(Vector2Int cell)
+    {
+        if (fullMap == null) return -1;
+        if (cell.x < 0 || cell.x >= fullMap.GetLength(0) ||
+            cell.y < 0 || cell.y >= fullMap.GetLength(1)) return -1;
+
+        return fullMap[cell.x, cell.y];
     }
 
     Vector3 GridToWorld(Vector2Int cell)
