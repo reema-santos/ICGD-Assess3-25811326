@@ -33,4 +33,6 @@ public class Tweener : MonoBehaviour
         if (tween != null) return;
         tween = new Tween(target, startPos, endPos, Time.time, duration);
     }
+
+    public void CancelTween() { tween = null; }
 }
