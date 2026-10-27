@@ -19,7 +19,7 @@ public class CherryController : MonoBehaviour
     void Start()
     {
         if (levelGenerator == null)
-            levelGenerator = GameObject.FindGameObjectWithTag("Level1").GetComponent<LevelGenerator>();
+            levelGenerator = FindAnyObjectByType<LevelGenerator>();
 
         StartCoroutine(SpawnLoop());
     }

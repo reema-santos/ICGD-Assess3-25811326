@@ -2679,7 +2679,7 @@ GameObject:
   - component: {fileID: 26828326}
   m_Layer: 0
   m_Name: Level01
-  m_TagString: Level1
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -20168,6 +20168,7 @@ MonoBehaviour:
   speed: 5
   zDepth: -0.1
   startGridPos: {x: 1, y: 1}
+  levelGenerator: {fileID: 26828326}
   movementAudio: {fileID: 8300000, guid: 7193a2b295a012e4fa3e45a98a81e06e, type: 3}
   eatingPelletAudio: {fileID: 8300000, guid: b421ff8e3f9b2a64d906b91eceb287ce, type: 3}
   wallCollideAudio: {fileID: 8300000, guid: 09a3d81d7f6943848894688b076ca170, type: 3}
@@ -109375,7 +109376,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1435077638
 Transform:
   m_ObjectHideFlags: 0
@@ -117623,7 +117624,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1476637122
 Transform:
   m_ObjectHideFlags: 0
@@ -120171,7 +120172,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1513297273
 Transform:
   m_ObjectHideFlags: 0
@@ -121582,7 +121583,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1535995548
 Transform:
   m_ObjectHideFlags: 0
@@ -141153,7 +141154,7 @@ ParticleSystem:
     m_BurstCount: 0
     m_Bursts: []
   SizeModule:
-    enabled: 0
+    enabled: 1
     curve:
       serializedVersion: 2
       minMaxState: 1
@@ -141164,22 +141165,22 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 1
+          value: 1
+          inSlope: -2
+          outSlope: -2
           tangentMode: 0
           weightedMode: 0
-          inWeight: 0.33333334
-          outWeight: 0.33333334
+          inWeight: 0
+          outWeight: 0
         - serializedVersion: 3
           time: 1
-          value: 1
-          inSlope: 1
+          value: 0
+          inSlope: 0
           outSlope: 0
           tangentMode: 0
           weightedMode: 0
-          inWeight: 0.33333334
-          outWeight: 0.33333334
+          inWeight: 0
+          outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4

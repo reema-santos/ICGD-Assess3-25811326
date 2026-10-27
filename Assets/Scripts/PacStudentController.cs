@@ -1,6 +1,6 @@
 using System;
-using Unity.VisualScripting;
-using UnityEditor.PackageManager;
+// using Unity.VisualScripting;
+// using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class PacStudentController : MonoBehaviour
@@ -11,7 +11,7 @@ public class PacStudentController : MonoBehaviour
     [SerializeField] private Vector2Int startGridPos = new Vector2Int(1, -1);
 
     private Tweener tweener;
-    private LevelGenerator levelGenerator;
+    [SerializeField] private LevelGenerator levelGenerator;
     private int[,] fullMap;
     private KeyCode lastInput;
     private KeyCode currentInput;
@@ -27,11 +27,14 @@ public class PacStudentController : MonoBehaviour
 
     [SerializeField] private ParticleSystem collidePs;
 
+    private int previousTile;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         tweener = GetComponent<Tweener>();
-        levelGenerator = GameObject.FindGameObjectWithTag("Level1").GetComponent<LevelGenerator>();
+        if (levelGenerator == null)
+            levelGenerator = FindAnyObjectByType<LevelGenerator>();
 
         gridPos = startGridPos;
         pacStudent.transform.position = GridToWorld(gridPos);
@@ -57,6 +60,7 @@ public class PacStudentController : MonoBehaviour
 
         if (!tweener.IsTweening)
         {
+            levelGenerator.ChangePelletToEmpty(gridPos);
             MovePacStudent(speed);
         }
     }
@@ -107,7 +111,9 @@ public class PacStudentController : MonoBehaviour
         if (dir == Vector2Int.zero) return false;
 
         Vector2Int next = gridPos + dir;
+        int previousTile = GetTile(gridPos);
         int nextTile = GetTile(next);
+
         if (!IsWalkable(nextTile)) {
             return false; 
         }
@@ -120,6 +126,7 @@ public class PacStudentController : MonoBehaviour
 
         tweener.AddTween(pacStudent.transform, start, end, duration);
         gridPos = next;
+
         return true;
     }
 
