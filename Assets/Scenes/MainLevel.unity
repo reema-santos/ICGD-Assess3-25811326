@@ -35818,12 +35818,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CherryController
   cherryPrefab: {fileID: 5835007422631572868, guid: 7f164f05695f52f4a8b2f253f61600ab, type: 3}
   levelMask: {fileID: 1606679775}
-  levelGenerator: {fileID: 0}
+  levelGenerator: {fileID: 26828326}
   speed: 3
   spawnDelay: 5
   edgeMargin: 1.5
   zDepth: -0.2
   sortingOrder: 100
+  pacStudent: {fileID: 268828962}
+  pacStudentController: {fileID: 268828967}
+  sfxSource: {fileID: 731997447}
+  cherryEatAudio: {fileID: 8300000, guid: 44c89b2701bc0e44bbb67c1b94a04835, type: 3}
+  eatDistance: 0.5
+  cherryPoints: 100
 --- !u!4 &924199390
 Transform:
   m_ObjectHideFlags: 0
@@ -38366,7 +38372,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Score: \n000000"
+  m_text: 000000
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 358315b59e0655540b772dd735652396, type: 2}
   m_sharedMaterial: {fileID: 1497598512994345158, guid: 358315b59e0655540b772dd735652396, type: 2}

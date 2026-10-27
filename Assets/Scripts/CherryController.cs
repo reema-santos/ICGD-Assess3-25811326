@@ -16,6 +16,13 @@ public class CherryController : MonoBehaviour
     private Vector3 lastStart;
     private bool hasLastStart;
 
+    [SerializeField] private Transform pacStudent;
+    [SerializeField] private PacStudentController pacStudentController;
+    [SerializeField] private AudioSource sfxSource;
+    [SerializeField] private AudioClip cherryEatAudio;
+    [SerializeField] private float eatDistance = 0.5f; // in tiles
+    [SerializeField] private int cherryPoints = 100;
+
     void Start()
     {
         if (levelGenerator == null)
@@ -31,17 +38,41 @@ public class CherryController : MonoBehaviour
             // 5s after the scene starts, and 5s after the previous cherry is gone
             yield return new WaitForSeconds(spawnDelay);
 
-            // the generator builds fullMap in its own Start()
             while (levelGenerator.fullMap == null) yield return null;
 
             Tweener tweener = SpawnCherry();
 
-            // cherry becomes null if it's destroyed (e.g. eaten later on)
-            while (cherry != null && tweener.IsTweening) yield return null;
+            while (cherry != null && tweener.IsTweening)
+            {
+                if (IsEaten())
+                {
+                    EatCherry();
+                    break;
+                }
+                yield return null;
+            }
 
-            // reached the far side: destroy it
+            // reached the far side without being eaten: destroy it
             if (cherry != null) Destroy(cherry);
         }
+    }
+
+    bool IsEaten()
+    {
+        if (pacStudent == null) return false;
+        Vector2 a = cherry.transform.position;
+        Vector2 b = pacStudent.position;
+        return Vector2.Distance(a, b) <= eatDistance;  
+    }
+
+    void EatCherry()
+    {
+        pacStudentController.AddPoints(cherryPoints);
+        Debug.Log("Eaten cherry");
+        if (sfxSource != null && cherryEatAudio != null)
+            sfxSource.PlayOneShot(cherryEatAudio);
+
+        Destroy(cherry);
     }
 
     Tweener SpawnCherry()

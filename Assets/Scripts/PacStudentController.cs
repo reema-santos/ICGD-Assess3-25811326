@@ -74,20 +74,25 @@ public class PacStudentController : MonoBehaviour
         {
             int tile = GetTile(gridPos);
             if (IsNormalPellet(tile)) {
-                points += 10;
+                AddPoints(10);
                 Debug.Log("Added 10 points");
             }
 
             if (IsPowerPellet(tile)) {
-                points += 50;
+                AddPoints(50);
                 ghostPower.StartPowerState();
                 Debug.Log("Added 50 points");
             }
   
             levelGenerator.ChangePelletToEmpty(gridPos);
-            UpdatePointsUI(points);
             MovePacStudent(speed);
         }
+    }
+
+    public void AddPoints(int amount)
+    {
+        points += amount;
+        UpdatePointsUI(points);
     }
 
     void UpdatePointsUI(int points)
