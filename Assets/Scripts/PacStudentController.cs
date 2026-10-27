@@ -85,6 +85,7 @@ public class PacStudentController : MonoBehaviour
             }
   
             levelGenerator.ChangePelletToEmpty(gridPos);
+            TryTeleport();
             MovePacStudent(speed);
         }
     }
@@ -188,6 +189,30 @@ public class PacStudentController : MonoBehaviour
         tweener.AddTween(pacStudent.transform, start, end, duration);
         gridPos = next;
 
+        return true;
+    }
+
+    bool TryTeleport()
+    {
+        if (fullMap == null) return false;
+
+        int lastCol = fullMap.GetLength(1) - 1;
+        int tile = GetTile(gridPos);
+        if (!IsWalkable(tile)) return false;
+
+        if (gridPos.y == 0) // left end -> reappear on the right
+        {
+            gridPos = new Vector2Int(gridPos.x, lastCol);
+            currentInput = KeyCode.A; // inwards from the right side is left
+        }
+        else if (gridPos.y == lastCol) // right end -> reappear on the left
+        {
+            gridPos = new Vector2Int(gridPos.x, 0);
+            currentInput = KeyCode.D; // inwards from the left side is right
+        }
+        else return false;
+
+        pacStudent.transform.position = GridToWorld(gridPos);
         return true;
     }
 
