@@ -5,6 +5,7 @@ using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
 using System.Collections;
+using UnityEditor.Rendering;
 
 public class PacStudentController : MonoBehaviour
 {
@@ -12,37 +13,38 @@ public class PacStudentController : MonoBehaviour
     [SerializeField] private float speed = 5f;
     [SerializeField] private float zDepth = -0.1f;
     [SerializeField] private Vector2Int startGridPos = new Vector2Int(1, -1);
-
-    private Tweener tweener;
     [SerializeField] private LevelGenerator levelGenerator;
-    private int[,] fullMap;
-    private KeyCode? lastInput;
-    private KeyCode? currentInput;
-    private Vector2Int gridPos;
-
-    private Animator animator;
-    private AudioSource audioSource;
     [SerializeField] private AudioClip movementAudio;
     [SerializeField] private AudioClip eatingPelletAudio;
     [SerializeField] private AudioClip wallCollideAudio;
     [SerializeField] private AudioSource sfxSource;
-    private bool wallSoundPlayed;
-
     [SerializeField] private ParticleSystem collidePs;
-
-    private int points;
+    [SerializeField] private GameTimer gameTimer;
     [SerializeField] private TMP_Text pointsText;
     [SerializeField] private List<UnityEngine.UI.Image> lives;
     [SerializeField] private GhostPowerManager ghostManager;
     [SerializeField] private GhostController[] ghosts;
-
     [SerializeField] private ParticleSystem deathPs;
     [SerializeField] private AudioClip deathAudio;
     [SerializeField] private float deathDuration = 1.5f;
     [SerializeField] private float dieDistance = 0.5f;
-    private bool isDying;
     [SerializeField] private int ghostPoints = 300;
+    [SerializeField] private GameOverController gameOverController;
 
+    private Tweener tweener;
+    private int[,] fullMap;
+    private KeyCode? lastInput;
+    private KeyCode? currentInput;
+    private Vector2Int gridPos;
+    private Animator animator;
+    private AudioSource audioSource;
+    private bool wallSoundPlayed;
+    private int points; // current score 
+    public int HighScore { get; private set; }
+    public float RecordTime { get; private set; }
+    private const string HighScoreKey = "HighScore";
+    private const string RecordTimeKey = "RecordTime";
+    private bool isDying;
     public bool ControlEnabled { get; set; }   // false until the countdown finishes
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -57,12 +59,15 @@ public class PacStudentController : MonoBehaviour
 
         animator = pacStudent.GetComponent<Animator>();
         if (audioSource == null) audioSource = pacStudent.GetComponent<AudioSource>();
-        points = 0;
 
         if (pointsText != null) pointsText.text = "000000";
 
         if (ghosts == null || ghosts.Length == 0)
             ghosts = FindObjectsByType<GhostController>();
+        
+        HighScore = PlayerPrefs.GetInt(HighScoreKey, 0); // 0 if doesn't exist
+        RecordTime = PlayerPrefs.GetFloat(RecordTimeKey, 0);
+        Debug.Log($"Loaded: high score is {HighScore} at {RecordTime} seconds");
     }
 
     // Update is called once per frame
@@ -107,8 +112,39 @@ public class PacStudentController : MonoBehaviour
             }
   
             levelGenerator.ChangePelletToEmpty(gridPos);
+
+            if (levelGenerator.PelletsRemaining <= 0)
+            {
+                TriggerGameOver();
+                return;
+            }
+
             TryTeleport();
             MovePacStudent(speed);
+        }
+
+        SaveIfHighScore();
+    }
+
+    void SaveIfHighScore()
+    {
+        // Check if current points and high score are the same first, and see which has the lower time
+        if (points == HighScore && gameTimer.Elapsed < RecordTime)
+        {
+            // Change record time to current time
+            RecordTime = gameTimer.Elapsed;
+            PlayerPrefs.SetInt(HighScoreKey, points);
+            PlayerPrefs.SetFloat(RecordTimeKey, RecordTime);
+            PlayerPrefs.Save();
+        }
+
+        if (points > HighScore) // If current points are higher than record score
+        {
+            HighScore = points;
+            RecordTime = gameTimer.Elapsed;
+            PlayerPrefs.SetInt(HighScoreKey, HighScore);
+            PlayerPrefs.SetFloat(RecordTimeKey, RecordTime);
+            PlayerPrefs.Save();
         }
     }
 
@@ -142,7 +178,8 @@ public class PacStudentController : MonoBehaviour
 
         if (lives.Count == 0)
         {
-            // Game Over is a later requirement: hook it in here and stay frozen
+            SaveIfHighScore();
+            gameOverController.BeginGameOver();
             yield break;
         }
 
@@ -153,6 +190,14 @@ public class PacStudentController : MonoBehaviour
         isDying = false;
     }
     
+    void TriggerGameOver()
+    {
+        SaveIfHighScore();
+        tweener.CancelTween();
+        audioSource.Stop();
+        gameOverController.BeginGameOver();
+    }
+
     void EatTouchingGhosts()
     {
         Vector2 p = pacStudent.transform.position;
@@ -313,6 +358,10 @@ public class PacStudentController : MonoBehaviour
         wallSoundPlayed = false;
     }
 
+    void GameOver()
+    {
+        
+    }
     bool TouchingNormalGhost()
     {
         Vector2 p = pacStudent.transform.position;
@@ -322,11 +371,6 @@ public class PacStudentController : MonoBehaviour
             if (Vector2.Distance(ghost.transform.position, p) <= dieDistance) return true;
         }
         return false;
-    }
-
-    bool IsGameOver()
-    {
-        return lives == null;
     }
 
     bool IsWalkable(int tile)
@@ -356,5 +400,13 @@ public class PacStudentController : MonoBehaviour
         Vector3 p = levelGenerator.GridToWorld(cell.x, cell.y);
         p.z = zDepth;
         return p;
+    }
+
+    public void ResetHighScore()
+    {
+        PlayerPrefs.DeleteKey(HighScoreKey);
+        PlayerPrefs.DeleteKey(RecordTimeKey);
+        HighScore = 0;
+        RecordTime = 0;
     }
 }

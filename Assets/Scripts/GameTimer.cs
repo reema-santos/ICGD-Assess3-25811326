@@ -38,10 +38,15 @@ public class GameTimer : MonoBehaviour
 
     void UpdateText()
     {
-        int minutes = (int)(Elapsed / 60f);
-        int seconds = (int)(Elapsed % 60f);
-        int hundredths = (int)((Elapsed * 100f) % 100f);
+        timerText.text = TimeToString(Elapsed);
+    }
 
-        timerText.text = $"{minutes:00}:{seconds:00}:{hundredths:00}";
+    string TimeToString(float time)
+    {
+        int minutes = (int)(time / 60f);
+        int seconds = (int)(time % 60f);
+        int hundredths = (int)((time * 100f) % 100f);
+
+        return $"{minutes:00}:{seconds:00}:{hundredths:00}";
     }
 }
