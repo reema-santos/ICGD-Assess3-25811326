@@ -5,6 +5,7 @@ using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
 using System.Collections;
+using UnityEditor.Rendering;
 
 public class PacStudentController : MonoBehaviour
 {
@@ -39,8 +40,8 @@ public class PacStudentController : MonoBehaviour
     private AudioSource audioSource;
     private bool wallSoundPlayed;
     private int points; // current score 
-    private int highScore = 0;
-    private float recordTime = 0;
+    public int HighScore { get; private set; }
+    public float RecordTime { get; private set; }
     private const string HighScoreKey = "HighScore";
     private const string RecordTimeKey = "RecordTime";
     private bool isDying;
@@ -64,9 +65,9 @@ public class PacStudentController : MonoBehaviour
         if (ghosts == null || ghosts.Length == 0)
             ghosts = FindObjectsByType<GhostController>();
         
-        highScore = PlayerPrefs.GetInt(HighScoreKey, 0); // 0 if doesn't exist
-        recordTime = PlayerPrefs.GetFloat(RecordTimeKey, 0);
-        Debug.Log($"Loaded: high score is {highScore} at {recordTime} seconds");
+        HighScore = PlayerPrefs.GetInt(HighScoreKey, 0); // 0 if doesn't exist
+        RecordTime = PlayerPrefs.GetFloat(RecordTimeKey, 0);
+        Debug.Log($"Loaded: high score is {HighScore} at {RecordTime} seconds");
     }
 
     // Update is called once per frame
@@ -115,12 +116,12 @@ public class PacStudentController : MonoBehaviour
             MovePacStudent(speed);
         }
 
-        if (points > highScore)
+        if (points > HighScore)
         {
-            highScore = points;
-            recordTime = gameTimer.Elapsed;
-            PlayerPrefs.SetInt(HighScoreKey, highScore);
-            PlayerPrefs.SetFloat(RecordTimeKey, recordTime);
+            HighScore = points;
+            RecordTime = gameTimer.Elapsed;
+            PlayerPrefs.SetInt(HighScoreKey, HighScore);
+            PlayerPrefs.SetFloat(RecordTimeKey, RecordTime);
             PlayerPrefs.Save();
         }
     }
@@ -155,7 +156,6 @@ public class PacStudentController : MonoBehaviour
 
         if (lives.Count == 0)
         {
-            // Game Over is a later requirement: hook it in here and stay frozen
             gameOverController.StartCoroutine("GameOver");
             yield break;
         }
@@ -375,7 +375,7 @@ public class PacStudentController : MonoBehaviour
     {
         PlayerPrefs.DeleteKey(HighScoreKey);
         PlayerPrefs.DeleteKey(RecordTimeKey);
-        highScore = 0;
-        recordTime = 0;
+        HighScore = 0;
+        RecordTime = 0;
     }
 }
