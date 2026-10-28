@@ -39,11 +39,17 @@ public class UIManager : MonoBehaviour
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         int firstLevelSceneIndex = SceneUtility.GetBuildIndexByScenePath("MainLevel");
+        int startSceneIndex = SceneUtility.GetBuildIndexByScenePath("StartScene");
         if (scene.buildIndex == firstLevelSceneIndex)
         {
             GameObject quitBtnObj = GameObject.FindGameObjectWithTag("ExitGame");
             Button quitBtn = quitBtnObj.GetComponent<Button>();
             quitBtn.onClick.AddListener(QuitGame);
+        }
+
+        if (scene.buildIndex == startSceneIndex)
+        {
+            Debug.Log("Loaded Start Scene");
         }
     }
 

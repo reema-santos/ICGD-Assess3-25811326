@@ -12,43 +12,38 @@ public class PacStudentController : MonoBehaviour
     [SerializeField] private float speed = 5f;
     [SerializeField] private float zDepth = -0.1f;
     [SerializeField] private Vector2Int startGridPos = new Vector2Int(1, -1);
-
-    private Tweener tweener;
     [SerializeField] private LevelGenerator levelGenerator;
-    private int[,] fullMap;
-    private KeyCode? lastInput;
-    private KeyCode? currentInput;
-    private Vector2Int gridPos;
-
-    private Animator animator;
-    private AudioSource audioSource;
     [SerializeField] private AudioClip movementAudio;
     [SerializeField] private AudioClip eatingPelletAudio;
     [SerializeField] private AudioClip wallCollideAudio;
     [SerializeField] private AudioSource sfxSource;
-    private bool wallSoundPlayed;
-
     [SerializeField] private ParticleSystem collidePs;
-
-    private int points; // current score 
-    private int highScore = 0;
-    private float recordTime = 0;
-    private const string HighScoreKey = "HighScore";
-    private const string RecordTimeKey = "RecordTime";
-
     [SerializeField] private GameTimer gameTimer;
     [SerializeField] private TMP_Text pointsText;
     [SerializeField] private List<UnityEngine.UI.Image> lives;
     [SerializeField] private GhostPowerManager ghostManager;
     [SerializeField] private GhostController[] ghosts;
-
     [SerializeField] private ParticleSystem deathPs;
     [SerializeField] private AudioClip deathAudio;
     [SerializeField] private float deathDuration = 1.5f;
     [SerializeField] private float dieDistance = 0.5f;
-    private bool isDying;
     [SerializeField] private int ghostPoints = 300;
+    [SerializeField] private GameOverController gameOverController;
 
+    private Tweener tweener;
+    private int[,] fullMap;
+    private KeyCode? lastInput;
+    private KeyCode? currentInput;
+    private Vector2Int gridPos;
+    private Animator animator;
+    private AudioSource audioSource;
+    private bool wallSoundPlayed;
+    private int points; // current score 
+    private int highScore = 0;
+    private float recordTime = 0;
+    private const string HighScoreKey = "HighScore";
+    private const string RecordTimeKey = "RecordTime";
+    private bool isDying;
     public bool ControlEnabled { get; set; }   // false until the countdown finishes
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -161,6 +156,7 @@ public class PacStudentController : MonoBehaviour
         if (lives.Count == 0)
         {
             // Game Over is a later requirement: hook it in here and stay frozen
+            gameOverController.StartCoroutine("GameOver");
             yield break;
         }
 
@@ -331,6 +327,10 @@ public class PacStudentController : MonoBehaviour
         wallSoundPlayed = false;
     }
 
+    void GameOver()
+    {
+        
+    }
     bool TouchingNormalGhost()
     {
         Vector2 p = pacStudent.transform.position;
