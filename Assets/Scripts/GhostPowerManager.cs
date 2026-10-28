@@ -17,7 +17,6 @@ public class GhostPowerManager : MonoBehaviour
     [SerializeField] private AudioClip deadMusic;
     [SerializeField] private AudioClip ghostEatAudio;
     [SerializeField] private AudioSource sfxSource;
-    [SerializeField] private float deadDuration = 3f;
 
     private float endTime;
     public bool PowerActive { get; private set; }
@@ -67,27 +66,23 @@ public class GhostPowerManager : MonoBehaviour
         routine = null;
     }
 
-    // Called by PacStudent when he eats a Scared/Recovering ghost
+    // Called by PacStudent when it eats a Scared/Recovering ghost
     public void GhostEaten(GhostController ghost)
     {
         ghost.SetDead();
         if (sfxSource != null && ghostEatAudio != null) sfxSource.PlayOneShot(ghostEatAudio);
-        RefreshMusic();
-        StartCoroutine(ReviveRoutine(ghost));
+        RefreshMusic();   // dead music while any ghost is dead
     }
 
-    IEnumerator ReviveRoutine(GhostController ghost)
+    // Called by a ghost when it gets back to its starting position (it is already Normal here)
+    public void GhostRespawned(GhostController ghost)
     {
-        yield return new WaitForSeconds(deadDuration);
-        if (ghost.State != GhostState.Dead) yield break;
-
-        ghost.Revive(); // back to Normal first
         if (PowerActive)
         {
             if (Remaining <= recoveringAt) ghost.SetRecovering();
             else ghost.SetScared();
         }
-        RefreshMusic();
+        RefreshMusic();   // stays on dead music if another ghost is still dead, otherwise matches the global state
     }
 
     // Priority: any dead ghost > scared timer running > normal
