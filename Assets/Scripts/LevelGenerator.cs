@@ -52,6 +52,9 @@ public class LevelGenerator : MonoBehaviour
     private Transform levelRoot;
     public Transform LevelRoot => levelRoot;
 
+    private int pelletsRemaining;
+    public int PelletsRemaining => pelletsRemaining;
+
     private void Start()
     {
         GameObject manualLevel = GameObject.FindGameObjectWithTag(manualLevelName);
@@ -148,6 +151,8 @@ public class LevelGenerator : MonoBehaviour
             for (int c = 0; c < fullCols; c++)
             {
                 int tileType = fullMap[r, c];
+
+                if (tileType == 5 || tileType == 6) pelletsRemaining++;
 
                 GameObject prefab = GetPrefabForType(tileType);
                 if (prefab == null) continue;
@@ -321,6 +326,9 @@ public class LevelGenerator : MonoBehaviour
 
         int tile = fullMap[cell.x, cell.y];
         if (tile != 5 && tile != 6) return;
+
+        pelletsRemaining--;
+        fullMap[cell.x, cell.y] = 0;
 
         fullMap[cell.x, cell.y] = 0;
 

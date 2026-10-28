@@ -112,11 +112,33 @@ public class PacStudentController : MonoBehaviour
             }
   
             levelGenerator.ChangePelletToEmpty(gridPos);
+
+            if (levelGenerator.PelletsRemaining <= 0)
+            {
+                TriggerGameOver();
+                return;
+            }
+
             TryTeleport();
             MovePacStudent(speed);
         }
 
-        if (points > HighScore)
+        SaveIfHighScore();
+    }
+
+    void SaveIfHighScore()
+    {
+        // Check if current points and high score are the same first, and see which has the lower time
+        if (points == HighScore && gameTimer.Elapsed < RecordTime)
+        {
+            // Change record time to current time
+            RecordTime = gameTimer.Elapsed;
+            PlayerPrefs.SetInt(HighScoreKey, points);
+            PlayerPrefs.SetFloat(RecordTimeKey, RecordTime);
+            PlayerPrefs.Save();
+        }
+
+        if (points > HighScore) // If current points are higher than record score
         {
             HighScore = points;
             RecordTime = gameTimer.Elapsed;
@@ -156,7 +178,8 @@ public class PacStudentController : MonoBehaviour
 
         if (lives.Count == 0)
         {
-            gameOverController.StartCoroutine("GameOver");
+            SaveIfHighScore();
+            gameOverController.BeginGameOver();
             yield break;
         }
 
@@ -167,6 +190,14 @@ public class PacStudentController : MonoBehaviour
         isDying = false;
     }
     
+    void TriggerGameOver()
+    {
+        SaveIfHighScore();
+        tweener.CancelTween();
+        audioSource.Stop();
+        gameOverController.BeginGameOver();
+    }
+
     void EatTouchingGhosts()
     {
         Vector2 p = pacStudent.transform.position;

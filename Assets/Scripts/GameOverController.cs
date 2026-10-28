@@ -11,6 +11,7 @@ public class GameOverController : MonoBehaviour
     [SerializeField] private PacStudentController pacStudent;
     [SerializeField] private GhostController[] ghosts;
     [SerializeField] private float duration = 3.0f;
+    private bool started;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -33,9 +34,10 @@ public class GameOverController : MonoBehaviour
         SceneManager.LoadScene("StartScene");
     }
 
-    // Update is called once per frame
-    void Update()
+    public void BeginGameOver()
     {
-        
+        if (started) return;
+        started = true;
+        StartCoroutine(GameOver());
     }
 }
