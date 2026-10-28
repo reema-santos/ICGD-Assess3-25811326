@@ -39,7 +39,7 @@ public class RoundStartController : MonoBehaviour
         {
             musicSource.Stop();
             musicSource.clip = introMusic;
-            musicSource.loop = false;
+            musicSource.loop = true;
             musicSource.Play();
         }
 

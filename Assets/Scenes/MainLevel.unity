@@ -15207,6 +15207,7 @@ MonoBehaviour:
   wallCollideAudio: {fileID: 8300000, guid: 09a3d81d7f6943848894688b076ca170, type: 3}
   sfxSource: {fileID: 731997447}
   collidePs: {fileID: 1466874226}
+  gameTimer: {fileID: 650432739}
   pointsText: {fileID: 982692787}
   lives:
   - {fileID: 511799595}

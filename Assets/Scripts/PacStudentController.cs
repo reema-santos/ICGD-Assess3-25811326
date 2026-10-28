@@ -30,7 +30,13 @@ public class PacStudentController : MonoBehaviour
 
     [SerializeField] private ParticleSystem collidePs;
 
-    private int points;
+    private int points; // current score 
+    private int highScore = 0;
+    private float recordTime = 0;
+    private const string HighScoreKey = "HighScore";
+    private const string RecordTimeKey = "RecordTime";
+
+    [SerializeField] private GameTimer gameTimer;
     [SerializeField] private TMP_Text pointsText;
     [SerializeField] private List<UnityEngine.UI.Image> lives;
     [SerializeField] private GhostPowerManager ghostManager;
@@ -57,12 +63,15 @@ public class PacStudentController : MonoBehaviour
 
         animator = pacStudent.GetComponent<Animator>();
         if (audioSource == null) audioSource = pacStudent.GetComponent<AudioSource>();
-        points = 0;
 
         if (pointsText != null) pointsText.text = "000000";
 
         if (ghosts == null || ghosts.Length == 0)
             ghosts = FindObjectsByType<GhostController>();
+        
+        highScore = PlayerPrefs.GetInt(HighScoreKey, 0); // 0 if doesn't exist
+        recordTime = PlayerPrefs.GetFloat(RecordTimeKey, 0);
+        Debug.Log($"Loaded: high score is {highScore} at {recordTime} seconds");
     }
 
     // Update is called once per frame
@@ -109,6 +118,15 @@ public class PacStudentController : MonoBehaviour
             levelGenerator.ChangePelletToEmpty(gridPos);
             TryTeleport();
             MovePacStudent(speed);
+        }
+
+        if (points > highScore)
+        {
+            highScore = points;
+            recordTime = gameTimer.Elapsed;
+            PlayerPrefs.SetInt(HighScoreKey, highScore);
+            PlayerPrefs.SetFloat(RecordTimeKey, recordTime);
+            PlayerPrefs.Save();
         }
     }
 
@@ -324,11 +342,6 @@ public class PacStudentController : MonoBehaviour
         return false;
     }
 
-    bool IsGameOver()
-    {
-        return lives == null;
-    }
-
     bool IsWalkable(int tile)
     {
         return tile == 0 || tile == 5 || tile == 6;
@@ -356,5 +369,13 @@ public class PacStudentController : MonoBehaviour
         Vector3 p = levelGenerator.GridToWorld(cell.x, cell.y);
         p.z = zDepth;
         return p;
+    }
+
+    public void ResetHighScore()
+    {
+        PlayerPrefs.DeleteKey(HighScoreKey);
+        PlayerPrefs.DeleteKey(RecordTimeKey);
+        highScore = 0;
+        recordTime = 0;
     }
 }
