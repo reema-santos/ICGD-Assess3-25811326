@@ -15,7 +15,7 @@ public class LevelGenerator : MonoBehaviour
 
     [SerializeField] private GameObject powerPellet = null;
 
-    [SerializeField] private string manualLevelName = "manualLevel01";
+    [SerializeField] private string manualLevelName = "Level1";
     [SerializeField] private float tileSize = 1.0f;
 
     private int[,] levelMap =
@@ -37,7 +37,7 @@ public class LevelGenerator : MonoBehaviour
         {0,0,0,0,0,0,5,0,0,0,4,0,0,0},
     };
 
-    private int[,] fullMap; // mirrored grid
+    public int[,] fullMap; // mirrored grid
     private int[,] wallAxis; // full map (as above) but stores only straight walls
 
     // named consts to be inserted into wallAxis, tells u if a line is horizontal or vertical (or neither)
@@ -47,15 +47,24 @@ public class LevelGenerator : MonoBehaviour
 
     private int quadRows, quadCols, fullRows, fullCols;
 
+    private GameObject[,] tileObjects;
+    private GameObject[,] extraObjects;
+    private Transform levelRoot;
+    public Transform LevelRoot => levelRoot;
+
+    private int pelletsRemaining;
+    public int PelletsRemaining => pelletsRemaining;
+
     private void Start()
     {
-        GameObject manualLevel = GameObject.Find(manualLevelName);
-        if (manualLevel != null) Destroy(manualLevel);
+        GameObject manualLevel = GameObject.FindGameObjectWithTag(manualLevelName);
+        if (manualLevel != null) manualLevel.SetActive(false);
 
         GenerateFullMapMatrix();
         ComputeWallAxes();
         CreateLevelLayout();
         AdjustCameraViewport();
+        
     }
 
     private void GenerateFullMapMatrix()
@@ -63,8 +72,8 @@ public class LevelGenerator : MonoBehaviour
         quadRows = levelMap.GetLength(0);
         quadCols = levelMap.GetLength(1);
 
-        fullRows = quadRows * 2;
-        fullCols = quadCols * 2;
+        fullRows = quadRows * 2 - 1;   // 29, middle row shared
+        fullCols = quadCols * 2;       // 28
         fullMap = new int[fullRows, fullCols];
 
         for (int r = 0; r < fullRows; r++)
@@ -132,7 +141,10 @@ public class LevelGenerator : MonoBehaviour
 
     private void CreateLevelLayout()
     {
-        GameObject levelRoot = new GameObject("Procedural Level");
+        tileObjects = new GameObject[fullRows, fullCols];
+        extraObjects = new GameObject[fullRows, fullCols];
+        GameObject rootObj = new GameObject("Procedural Level");
+        levelRoot = rootObj.transform;
 
         for (int r = 0; r < fullRows; r++)
         {
@@ -140,19 +152,22 @@ public class LevelGenerator : MonoBehaviour
             {
                 int tileType = fullMap[r, c];
 
+                if (tileType == 5 || tileType == 6) pelletsRemaining++;
+
                 GameObject prefab = GetPrefabForType(tileType);
                 if (prefab == null) continue;
 
                 Vector3 position = new Vector3(c * tileSize, -r * tileSize, 0);
-                GameObject spawnedTile = Instantiate(prefab, position, Quaternion.identity, levelRoot.transform);
+                GameObject spawnedTile = Instantiate(prefab, position, Quaternion.identity, levelRoot);
                 spawnedTile.name = $"Tile_{r}_{c}_Type_{tileType}";
+                tileObjects[r, c] = spawnedTile;
 
                 if (prefab == powerPelletPrefab && powerPellet != null)
                 {
-                    powerPellet = Instantiate(powerPellet, position, Quaternion.identity);
-                    powerPellet.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
-                    Animator animator = powerPellet.GetComponent<Animator>();
-                    animator.Play("PowerPellet_Flash");
+                    GameObject pp = Instantiate(powerPellet, position, Quaternion.identity);
+                    pp.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
+                    pp.GetComponent<Animator>().Play("PowerPellet_Flash");
+                    extraObjects[r, c] = pp;
                 }
 
                 float rotationAngle = CalculateRotation(r, c, tileType);
@@ -299,5 +314,32 @@ public class LevelGenerator : MonoBehaviour
         float targetSizeByWidth = (mapWidth / 2f) / screenAspect;
 
         mainCam.orthographicSize = Mathf.Max(targetSizeByHeight, targetSizeByWidth);
+    }
+
+    public Vector3 GridToWorld(int r, int c) => new Vector3(c * tileSize, -r * tileSize, 0f);
+
+    public void ChangePelletToEmpty(Vector2Int cell)
+    {
+        if (fullMap == null) return;
+        if (cell.x < 0 || cell.x >= fullMap.GetLength(0) ||
+            cell.y < 0 || cell.y >= fullMap.GetLength(1)) return;
+
+        int tile = fullMap[cell.x, cell.y];
+        if (tile != 5 && tile != 6) return;
+
+        pelletsRemaining--;
+        fullMap[cell.x, cell.y] = 0;
+
+        fullMap[cell.x, cell.y] = 0;
+
+        if (tileObjects[cell.x, cell.y] != null) Destroy(tileObjects[cell.x, cell.y]);
+        if (extraObjects[cell.x, cell.y] != null) Destroy(extraObjects[cell.x, cell.y]);
+        tileObjects[cell.x, cell.y] = null;
+        extraObjects[cell.x, cell.y] = null;
+
+        Vector3 position = GridToWorld(cell.x, cell.y);
+        GameObject spawnedTile = Instantiate(emptyPrefab, position, Quaternion.identity, levelRoot);
+        spawnedTile.name = $"Tile_{cell.x}_{cell.y}_Type_0";
+        tileObjects[cell.x, cell.y] = spawnedTile;
     }
 }
