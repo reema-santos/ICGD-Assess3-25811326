@@ -26,6 +26,11 @@ public class UIManager : MonoBehaviour
         SceneManager.LoadScene("MainLevel");
     }
 
+    public void LoadInnovationLevel()
+    {
+        SceneManager.LoadScene("InnovationScene");
+    }
+
     public void QuitGame()
     {
         #if UNITY_STANDALONE
@@ -41,6 +46,8 @@ public class UIManager : MonoBehaviour
     {
         int firstLevelSceneIndex = SceneUtility.GetBuildIndexByScenePath("MainLevel");
         int startSceneIndex = SceneUtility.GetBuildIndexByScenePath("StartScene");
+        int innovationSceneIndex = SceneUtility.GetBuildIndexByScenePath("InnovationScene");
+
         if (scene.buildIndex == firstLevelSceneIndex)
         {
             GameObject quitBtnObj = GameObject.FindGameObjectWithTag("ExitGame");
@@ -61,6 +68,13 @@ public class UIManager : MonoBehaviour
             timeText.text = TimeToString(recordTime);
 
             Debug.Log("Loaded Start Scene");
+        }
+
+        if (scene.buildIndex == innovationSceneIndex)
+        {
+            GameObject quitBtnObj = GameObject.FindGameObjectWithTag("ExitGameFromInnovation");
+            Button quitBtn = quitBtnObj.GetComponent<Button>();
+            quitBtn.onClick.AddListener(QuitGame);
         }
     }
 

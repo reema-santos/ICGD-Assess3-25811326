@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public enum GhostState { Normal, Scared, Recovering, Dead }
 public enum Facing { Up = 0, Left = 1, Down = 2, Right = 3 }
@@ -18,6 +19,7 @@ public class GhostController : MonoBehaviour
     [SerializeField] private GhostPowerManager powerManager;
     [SerializeField] private Vector2Int topExitCell = new Vector2Int(11, 13); // just outside the top gap (row, col)
     [SerializeField] private Vector2Int bottomExitCell = new Vector2Int(17, 13); // just outside the bottom gap
+    [SerializeField] private bool isLevel2 = false;
 
     public GhostState State { get; private set; } = GhostState.Normal;
     public Facing Direction { get; private set; } = Facing.Down;
@@ -273,13 +275,20 @@ public class GhostController : MonoBehaviour
     {
         State = newState;
         int d = (int)Direction;
+        Light2D spotlight = GetComponent<Light2D>(); 
 
         switch (newState)
         {
-            case GhostState.Normal: animator.Play(normalStates[d]); break;
-            case GhostState.Scared: animator.Play(scaredStates[d]); break;
-            case GhostState.Recovering: animator.Play(recoveringState); break;
-            case GhostState.Dead: animator.Play(deadState); break;
+            case GhostState.Normal: animator.Play(normalStates[d]); if (isLevel2) spotlight.enabled = false; break;
+            case GhostState.Scared: 
+                animator.Play(scaredStates[d]);
+                if (isLevel2) spotlight.enabled = true;
+                break;
+            case GhostState.Recovering: 
+                animator.Play(recoveringState);
+                if (isLevel2) spotlight.enabled = true;
+                break;
+            case GhostState.Dead: animator.Play(deadState); if (isLevel2) spotlight.enabled = false; break;
         }
     }
 }
