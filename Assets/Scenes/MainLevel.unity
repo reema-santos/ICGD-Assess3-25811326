@@ -1362,6 +1362,9 @@ MonoBehaviour:
   powerPellet: {fileID: 2848465847878322864, guid: e1f917433db7be24bb31a87793087a7a, type: 3}
   manualLevelName: Level1
   tileSize: 1
+  useProceduralMap: 0
+  randomSeed: 1
+  seed: 12345
 --- !u!1 &27200721
 GameObject:
   m_ObjectHideFlags: 0
