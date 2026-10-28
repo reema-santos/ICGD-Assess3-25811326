@@ -15335,7 +15335,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PacStudentController
   pacStudent: {fileID: 268828960}
-  speed: 5
   zDepth: -0.1
   startGridPos: {x: 1, y: 1}
   levelGenerator: {fileID: 26828326}
@@ -15362,6 +15361,7 @@ MonoBehaviour:
   dieDistance: 0.5
   ghostPoints: 300
   gameOverController: {fileID: 1572885679}
+  speed: 5
 --- !u!1 &269231004
 GameObject:
   m_ObjectHideFlags: 0
@@ -27463,7 +27463,6 @@ MonoBehaviour:
   deadMusic: {fileID: 8300000, guid: f704feb9131e0c948bcf32cdc8e3b64a, type: 3}
   ghostEatAudio: {fileID: 8300000, guid: 4c429a108cfbdad459621f88e8331b8f, type: 3}
   sfxSource: {fileID: 731997447}
-  deadDuration: 3
 --- !u!4 &554860792
 Transform:
   m_ObjectHideFlags: 0
@@ -50112,6 +50111,7 @@ GameObject:
   - component: {fileID: 1149406240}
   - component: {fileID: 1149406239}
   - component: {fileID: 1149406242}
+  - component: {fileID: 1149406243}
   m_Layer: 0
   m_Name: Ghost4
   m_TagString: Untagged
@@ -50209,7 +50209,7 @@ Transform:
   m_GameObject: {fileID: 1149406238}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 20, y: -16, z: 1.31634}
+  m_LocalPosition: {x: 20, y: -16, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -50241,6 +50241,24 @@ MonoBehaviour:
   - Scared_RightAnim
   recoveringState: Ghost4_Recovering
   deadState: GhostDead
+  ghostNumber: 4
+  pacStudent: {fileID: 268828967}
+  levelGenerator: {fileID: 26828326}
+  powerManager: {fileID: 554860791}
+  topExitCell: {x: 11, y: 13}
+  bottomExitCell: {x: 17, y: 13}
+--- !u!114 &1149406243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1149406238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41e194c44a3f87b4bb72e61c7fa47a7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Tweener
 --- !u!1 &1149628858
 GameObject:
   m_ObjectHideFlags: 0
@@ -61431,6 +61449,7 @@ GameObject:
   - component: {fileID: 1427517293}
   - component: {fileID: 1427517292}
   - component: {fileID: 1427517295}
+  - component: {fileID: 1427517296}
   m_Layer: 0
   m_Name: Ghost1
   m_TagString: Untagged
@@ -61528,7 +61547,7 @@ Transform:
   m_GameObject: {fileID: 1427517291}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 17, y: -16, z: 1.31634}
+  m_LocalPosition: {x: 17, y: -16, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -61560,6 +61579,24 @@ MonoBehaviour:
   - Scared_RightAnim
   recoveringState: Ghost1_Recovering
   deadState: GhostDead
+  ghostNumber: 1
+  pacStudent: {fileID: 268828967}
+  levelGenerator: {fileID: 26828326}
+  powerManager: {fileID: 554860791}
+  topExitCell: {x: 11, y: 13}
+  bottomExitCell: {x: 17, y: 13}
+--- !u!114 &1427517296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1427517291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41e194c44a3f87b4bb72e61c7fa47a7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Tweener
 --- !u!1 &1427900329
 GameObject:
   m_ObjectHideFlags: 0
@@ -89327,6 +89364,7 @@ GameObject:
   - component: {fileID: 1923074715}
   - component: {fileID: 1923074714}
   - component: {fileID: 1923074717}
+  - component: {fileID: 1923074718}
   m_Layer: 0
   m_Name: Ghost2
   m_TagString: Untagged
@@ -89424,7 +89462,7 @@ Transform:
   m_GameObject: {fileID: 1923074713}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 18, y: -16, z: 1.31634}
+  m_LocalPosition: {x: 18, y: -16, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -89456,6 +89494,24 @@ MonoBehaviour:
   - Scared_RightAnim
   recoveringState: Ghost2_Recovering
   deadState: GhostDead
+  ghostNumber: 2
+  pacStudent: {fileID: 268828967}
+  levelGenerator: {fileID: 26828326}
+  powerManager: {fileID: 554860791}
+  topExitCell: {x: 11, y: 13}
+  bottomExitCell: {x: 17, y: 13}
+--- !u!114 &1923074718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1923074713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41e194c44a3f87b4bb72e61c7fa47a7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Tweener
 --- !u!1 &1923797378
 GameObject:
   m_ObjectHideFlags: 0
@@ -93238,6 +93294,7 @@ GameObject:
   - component: {fileID: 2032169292}
   - component: {fileID: 2032169291}
   - component: {fileID: 2032169294}
+  - component: {fileID: 2032169295}
   m_Layer: 0
   m_Name: Ghost3
   m_TagString: Untagged
@@ -93335,7 +93392,7 @@ Transform:
   m_GameObject: {fileID: 2032169290}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 19, y: -16, z: 1.31634}
+  m_LocalPosition: {x: 19, y: -16, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -93367,6 +93424,24 @@ MonoBehaviour:
   - Scared_RightAnim
   recoveringState: Ghost3_Recovering
   deadState: GhostDead
+  ghostNumber: 3
+  pacStudent: {fileID: 268828967}
+  levelGenerator: {fileID: 26828326}
+  powerManager: {fileID: 554860791}
+  topExitCell: {x: 11, y: 13}
+  bottomExitCell: {x: 17, y: 13}
+--- !u!114 &2032169295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2032169290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41e194c44a3f87b4bb72e61c7fa47a7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Tweener
 --- !u!1 &2033048690
 GameObject:
   m_ObjectHideFlags: 0

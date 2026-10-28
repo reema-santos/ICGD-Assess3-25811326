@@ -10,7 +10,6 @@ using UnityEditor.Rendering;
 public class PacStudentController : MonoBehaviour
 {
     [SerializeField] private GameObject pacStudent;
-    [SerializeField] private float speed = 5f;
     [SerializeField] private float zDepth = -0.1f;
     [SerializeField] private Vector2Int startGridPos = new Vector2Int(1, -1);
     [SerializeField] private LevelGenerator levelGenerator;
@@ -30,6 +29,7 @@ public class PacStudentController : MonoBehaviour
     [SerializeField] private float dieDistance = 0.5f;
     [SerializeField] private int ghostPoints = 300;
     [SerializeField] private GameOverController gameOverController;
+    [SerializeField] private float speed = 5f;
 
     private Tweener tweener;
     private int[,] fullMap;
@@ -46,6 +46,8 @@ public class PacStudentController : MonoBehaviour
     private const string RecordTimeKey = "RecordTime";
     private bool isDying;
     public bool ControlEnabled { get; set; }   // false until the countdown finishes
+    public float Speed => speed;
+    public Transform PacTransform => pacStudent.transform; 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -120,7 +122,7 @@ public class PacStudentController : MonoBehaviour
             }
 
             TryTeleport();
-            MovePacStudent(speed);
+            MovePacStudent(Speed);
         }
 
         SaveIfHighScore();
