@@ -48182,7 +48182,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Flicker
   targetLight: {fileID: 2028084922}
   minIntensity: 0.01
-  maxIntensity: 0.09
+  maxIntensity: 0.06
   flickerSpeed: 5
 --- !u!4 &1129887872
 Transform:
